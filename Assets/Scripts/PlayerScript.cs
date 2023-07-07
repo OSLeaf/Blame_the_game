@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    public float happiness = 50;
     public Dictionary<string, float> stats = new Dictionary<string, float>(){
         {"happiness", 50},
         {"vitutus", 25},
@@ -17,13 +18,13 @@ public class PlayerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     } 
 
     public void ChangeAStat(string statToChange, float change)

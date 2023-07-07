@@ -5,13 +5,14 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
     public int activePlayer = 0;
-
+    public Transform pieceParent;
     public Color[] playerColors;
     [SerializeField] private GameObject playerPiece;
     [SerializeField] private Transform boardParent;
     private Transform[] playerPieces;
     private SquareScript[] playerPositions;
     private SquareScript startSquare;
+    public PlayerScript[] playerValues;
     [SerializeField] private Animator diceAnim;
     private LineRenderer line;
 
@@ -26,12 +27,30 @@ public class BoardManager : MonoBehaviour
         return current;
     }
 
+    public PlayerScript CurrentPlayer()
+    {
+        return playerValues[activePlayer];
+    }
+    public PlayerScript NextPlayer()
+    {
+        return playerValues[(activePlayer + 1) % 4];
+    }
+    public PlayerScript PreviousPlayer()
+    {
+        return playerValues[(activePlayer + 3) % 4];
+    }
+    public PlayerScript OppositePlayer()
+    {
+        return playerValues[(activePlayer + 2) % 4];
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         line = GetComponent<LineRenderer>();
         playerPositions = new SquareScript[4];
         playerPieces = new Transform[4];
+        playerValues = new PlayerScript[4];
 
         // Form a graph of the game board squares
         startSquare = boardParent.GetChild(0).GetComponent<SquareScript>();
@@ -46,8 +65,9 @@ public class BoardManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             playerPositions[i] = startSquare;
-            playerPieces[i] = Instantiate(playerPiece, startSquare.transform.position, Quaternion.identity, transform).transform;
+            playerPieces[i] = Instantiate(playerPiece, startSquare.transform.position + Vector3.left * 0.5f * i, Quaternion.identity, pieceParent).transform;
             playerPieces[i].GetComponent<MeshRenderer>().material.color = playerColors[i];
+            playerValues[i] = GameObject.FindObjectOfType<PlayerScript>();
         }
 
     }
@@ -72,7 +92,6 @@ public class BoardManager : MonoBehaviour
     {
 
         line.enabled = false;
-
     }
     public void DiceRoll(int count)
     {
@@ -87,6 +106,31 @@ public class BoardManager : MonoBehaviour
             Vector3 startPosition = playerPieces[activePlayer].transform.position;
             playerPositions[activePlayer] = GetNSquaresForwardPrimary(playerPositions[activePlayer], 1);
             Vector3 targetPosition = playerPositions[activePlayer].transform.position;
+
+            int playersOnSameSquare = 0;
+            foreach(Transform player in playerPieces)
+            {
+                if((player.position - targetPosition).magnitude < 0.75f)
+                {
+                    playersOnSameSquare++;
+                }
+            }
+            if(playersOnSameSquare == 1)
+            {
+                targetPosition += Vector3.right * 0.5f;
+                targetPosition += Vector3.forward * 0.5f;
+            }
+            else if (playersOnSameSquare == 2)
+            {
+                targetPosition += Vector3.right * 0.5f;
+                targetPosition += Vector3.forward * -0.5f;
+            }
+            else if (playersOnSameSquare == 3)
+            {
+                targetPosition += Vector3.right * -0.5f;
+                targetPosition += Vector3.forward * -0.5f;
+            }
+
             float timer = 0;
             while(timer < 1)
             {
