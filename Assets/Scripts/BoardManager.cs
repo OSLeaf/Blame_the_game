@@ -9,19 +9,40 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private GameObject playerPiece;
     [SerializeField] private Transform boardParent;
     private Transform[] playerPieces;
-    private int[] playerPositions;
+    private SquareScript[] playerPositions;
+    private SquareScript startSquare;
     [SerializeField] private Animator diceAnim;
     private LineRenderer line;
+
+    SquareScript GetNSquaresForwardPrimary(SquareScript from, int N) {
+        // stay in the last square
+        var current = from;
+        for (int i = 0; i < N; i++) {
+            if (current.connections.Count > 0) {
+                current = current.connections[0];
+            }
+        }
+        return current;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         line = GetComponent<LineRenderer>();
-        playerPositions = new int[4];
+        playerPositions = new SquareScript[4];
         playerPieces = new Transform[4];
+        startSquare = boardParent.GetChild(0).GetComponent<SquareScript>();
+        startSquare.connections = new List<SquareScript>();
+        startSquare.connections.Add(boardParent.GetChild(1).GetComponent<SquareScript>());
+        for (int i = 1; i < boardParent.childCount - 1; i++)
+        {
+            boardParent.GetChild(i).GetComponent<SquareScript>().connections = new List<SquareScript>();
+            boardParent.GetChild(i).GetComponent<SquareScript>().connections.Add(boardParent.GetChild(i+1).GetComponent<SquareScript>());
+        }
         for (int i = 0; i < 4; i++)
         {
-            playerPieces[i] = Instantiate(playerPiece, boardParent.GetChild(0).position, Quaternion.identity, transform).transform;
+            playerPositions[i] = startSquare;
+            playerPieces[i] = Instantiate(playerPiece, startSquare.transform.position, Quaternion.identity, transform).transform;
         }
     }
 
@@ -37,7 +58,7 @@ public class BoardManager : MonoBehaviour
 
         line.enabled = true;
         line.SetPosition(0, playerPieces[activePlayer].transform.position);
-        line.SetPosition(1, boardParent.GetChild(playerPositions[activePlayer] + count).transform.position);
+        line.SetPosition(1, GetNSquaresForwardPrimary(playerPositions[activePlayer], count).transform.position);
 
     }
     public void DiceHowerEnd()
@@ -57,12 +78,11 @@ public class BoardManager : MonoBehaviour
         for(int i = 0; i < amount; i++)
         {
             Vector3 startPosition = playerPieces[activePlayer].transform.position;
-            playerPositions[activePlayer]++;
-            if(playerPositions[activePlayer] >= boardParent.childCount)
-            {
-                playerPositions[activePlayer] = 0;
+            if (playerPositions[activePlayer].connections.Count > 0) {
+                // Take primary route
+                playerPositions[activePlayer] = playerPositions[activePlayer].connections[0];
             }
-            Vector3 targetPosition = boardParent.GetChild(playerPositions[activePlayer]).transform.position;
+            Vector3 targetPosition = playerPositions[activePlayer].transform.position;
             float timer = 0;
             while(timer < 1)
             {
@@ -74,7 +94,7 @@ public class BoardManager : MonoBehaviour
               
         }
 
-        boardParent.GetChild(playerPositions[activePlayer]).GetComponent<SquareScript>().Landed();
+        playerPositions[activePlayer].GetComponent<SquareScript>().Landed();
     }
 
 
