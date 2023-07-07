@@ -12,6 +12,7 @@ public class BoardManager : MonoBehaviour
     private Transform[] playerPieces;
     private SquareScript[] playerPositions;
     private SquareScript startSquare;
+    public PlayerScript[] playerValues;
     [SerializeField] private Animator diceAnim;
     private LineRenderer line;
 
@@ -24,6 +25,23 @@ public class BoardManager : MonoBehaviour
             }
         }
         return current;
+    }
+
+    public PlayerScript CurrentPlayer()
+    {
+        return playerValues[activePlayer];
+    }
+    public PlayerScript NextPlayer()
+    {
+        return playerValues[(activePlayer + 1) % 4];
+    }
+    public PlayerScript PreviousPlayer()
+    {
+        return playerValues[(activePlayer + 3) % 4];
+    }
+    public PlayerScript OppositePlayer()
+    {
+        return playerValues[(activePlayer + 2) % 4];
     }
 
     // Start is called before the first frame update
