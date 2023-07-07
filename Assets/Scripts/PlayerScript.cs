@@ -5,11 +5,8 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public float happiness = 50;
-    public Dictionary<string, float> stats = new Dictionary<string, float>(){
-        {"happiness", 50},
-        {"vitutus", 25},
-        {"luck", 35}
-    };
+    public float vitutus = 25;
+    public float luck = 35;
     public Dictionary<string, float> relationships = new Dictionary<string, float>(){
         {"1", 50},
         {"2", 50},
@@ -26,11 +23,6 @@ public class PlayerScript : MonoBehaviour
     {
 
     } 
-
-    public void ChangeAStat(string statToChange, float change)
-    {
-        stats[statToChange] += change;
-    }
 
     public void ChangeRelationshipWithPlayer(string player, float change)
     {
