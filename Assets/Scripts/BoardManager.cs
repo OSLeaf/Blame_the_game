@@ -27,6 +27,48 @@ public class BoardManager : MonoBehaviour
         return current;
     }
 
+    private List<SquareScript> FindPath(SquareScript start, SquareScript goal) {
+        // Will break horribly if goal is not reachable from start!!!
+        // Should instead add nodes to unvisited via neighbors dynamically.
+        var unvisited = new HashSet<SquareScript>();
+        var distances = new Dictionary<SquareScript, (float, SquareScript)>();
+        foreach (var square in FindObjectsOfType<SquareScript>()) {
+            distances.Add(square, (Mathf.Infinity,start));
+            unvisited.Add(square);
+        }        
+        var current = start;
+        distances[current] = (0,start);
+        int helper = 0;
+        while (unvisited.Count > 0 && unvisited.Contains(goal)) {
+            helper += 1;
+            if (helper > 10) {
+                break;
+            }
+            unvisited.Remove(current);
+            foreach (var conncetion in current.connections) {
+                if (distances[conncetion].Item1 > distances[current].Item1 + 1) {
+                    distances[conncetion] = (distances[current].Item1+1, current);
+                }
+            }
+            float lowest = Mathf.Infinity;
+            foreach (var square in unvisited) {
+                if (distances[square].Item1 < lowest) {
+                    lowest = distances[square].Item1;
+                    current = square;
+                }
+            }
+        }
+        var result = new List<SquareScript>();
+        current = goal;
+        result.Add(current);
+        while (current != start) {
+            current = distances[current].Item2;
+            result.Add(current);
+        }
+        result.Reverse();
+        return result;
+    }
+
     public PlayerScript CurrentPlayer()
     {
         return playerValues[activePlayer];
