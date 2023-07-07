@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pelilauta : MonoBehaviour
+public class Gameboard : MonoBehaviour
 {
     private Square[] ruudut;
     public GameObject tester;
@@ -26,9 +26,9 @@ public class Pelilauta : MonoBehaviour
                 break;
             }
             unvisited.Remove(current);
-            foreach (var naapuri in current.naapurit_after) {
-                if (distances[naapuri].Item1 > distances[current].Item1 + 1) {
-                    distances[naapuri] = (distances[current].Item1+1, current);
+            foreach (var conncetion in current.connections) {
+                if (distances[conncetion].Item1 > distances[current].Item1 + 1) {
+                    distances[conncetion] = (distances[current].Item1+1, current);
                 }
             }
             float lowest = Mathf.Infinity;
