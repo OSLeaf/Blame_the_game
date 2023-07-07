@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    public float happiness = 50;
     public Dictionary<string, float> stats = new Dictionary<string, float>(){
         {"happiness", 50},
         {"vitutus", 25},

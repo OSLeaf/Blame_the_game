@@ -50,6 +50,7 @@ public class BoardManager : MonoBehaviour
         line = GetComponent<LineRenderer>();
         playerPositions = new SquareScript[4];
         playerPieces = new Transform[4];
+        playerValues = new PlayerScript[4];
 
         // Form a graph of the game board squares
         startSquare = boardParent.GetChild(0).GetComponent<SquareScript>();
@@ -66,6 +67,7 @@ public class BoardManager : MonoBehaviour
             playerPositions[i] = startSquare;
             playerPieces[i] = Instantiate(playerPiece, startSquare.transform.position, Quaternion.identity, transform).transform;
             playerPieces[i].GetComponent<MeshRenderer>().material.color = playerColors[i];
+            playerValues[i] = GameObject.FindObjectOfType<PlayerScript>();
         }
 
     }
