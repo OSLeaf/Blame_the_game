@@ -5,7 +5,8 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
     public int activePlayer = 0;
-    
+
+    public Color[] playerColors;
     [SerializeField] private GameObject playerPiece;
     [SerializeField] private Transform boardParent;
     private Transform[] playerPieces;
@@ -22,7 +23,9 @@ public class BoardManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             playerPieces[i] = Instantiate(playerPiece, boardParent.GetChild(0).position, Quaternion.identity, transform).transform;
+            playerPieces[i].GetComponent<MeshRenderer>().material.color = playerColors[i];
         }
+
     }
 
     public void NextTurn()
@@ -34,10 +37,11 @@ public class BoardManager : MonoBehaviour
     }
     public void DiceHower(int count)
     {
-
+        line.startColor = playerColors[activePlayer];
+        line.endColor = line.startColor;
         line.enabled = true;
         line.SetPosition(0, playerPieces[activePlayer].transform.position);
-        line.SetPosition(1, boardParent.GetChild(playerPositions[activePlayer] + count).transform.position);
+        line.SetPosition(1, boardParent.GetChild((playerPositions[activePlayer] + count) % (boardParent.childCount - 1)).transform.position);
 
     }
     public void DiceHowerEnd()
@@ -70,10 +74,8 @@ public class BoardManager : MonoBehaviour
 
                 timer += Time.deltaTime * 2;
                 yield return null;
-            }
-              
+            }   
         }
-
         boardParent.GetChild(playerPositions[activePlayer]).GetComponent<SquareScript>().Landed();
     }
 
