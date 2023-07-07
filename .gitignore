@@ -71,4 +71,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+<<<<<<< HEAD
 .vsconfig
+=======
+.vscode
+>>>>>>> 0a490511cd6e2a9ed17663ae9064836637ca8e04
