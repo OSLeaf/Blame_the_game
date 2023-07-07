@@ -5,7 +5,8 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
     public int activePlayer = 0;
-    
+
+    public Color[] playerColors;
     [SerializeField] private GameObject playerPiece;
     [SerializeField] private Transform boardParent;
     private Transform[] playerPieces;
@@ -31,19 +32,24 @@ public class BoardManager : MonoBehaviour
         line = GetComponent<LineRenderer>();
         playerPositions = new SquareScript[4];
         playerPieces = new Transform[4];
+
+        // Form a graph of the game board squares
         startSquare = boardParent.GetChild(0).GetComponent<SquareScript>();
-        startSquare.connections = new List<SquareScript>();
-        startSquare.connections.Add(boardParent.GetChild(1).GetComponent<SquareScript>());
+        startSquare.connections = new List<SquareScript>{boardParent.GetChild(1).GetComponent<SquareScript>()};
         for (int i = 1; i < boardParent.childCount - 1; i++)
         {
-            boardParent.GetChild(i).GetComponent<SquareScript>().connections = new List<SquareScript>();
-            boardParent.GetChild(i).GetComponent<SquareScript>().connections.Add(boardParent.GetChild(i+1).GetComponent<SquareScript>());
+            boardParent.GetChild(i).GetComponent<SquareScript>().connections = new List<SquareScript> {boardParent.GetChild(i+1).GetComponent<SquareScript>()};
         }
+        boardParent.GetChild(boardParent.childCount - 1).GetComponent<SquareScript>().connections = new List<SquareScript> {startSquare};
+
+
         for (int i = 0; i < 4; i++)
         {
             playerPositions[i] = startSquare;
             playerPieces[i] = Instantiate(playerPiece, startSquare.transform.position, Quaternion.identity, transform).transform;
+            playerPieces[i].GetComponent<MeshRenderer>().material.color = playerColors[i];
         }
+
     }
 
     public void NextTurn()
@@ -55,7 +61,8 @@ public class BoardManager : MonoBehaviour
     }
     public void DiceHower(int count)
     {
-
+        line.startColor = playerColors[activePlayer];
+        line.endColor = line.startColor;
         line.enabled = true;
         line.SetPosition(0, playerPieces[activePlayer].transform.position);
         line.SetPosition(1, GetNSquaresForwardPrimary(playerPositions[activePlayer], count).transform.position);
@@ -78,23 +85,18 @@ public class BoardManager : MonoBehaviour
         for(int i = 0; i < amount; i++)
         {
             Vector3 startPosition = playerPieces[activePlayer].transform.position;
-            if (playerPositions[activePlayer].connections.Count > 0) {
-                // Take primary route
-                playerPositions[activePlayer] = playerPositions[activePlayer].connections[0];
-            }
+            playerPositions[activePlayer] = GetNSquaresForwardPrimary(playerPositions[activePlayer], 1);
             Vector3 targetPosition = playerPositions[activePlayer].transform.position;
             float timer = 0;
             while(timer < 1)
             {
                 playerPieces[activePlayer].transform.position = Vector3.Lerp(startPosition, targetPosition, timer) + Vector3.up * Mathf.Sin(timer * Mathf.PI);
-
                 timer += Time.deltaTime * 2;
                 yield return null;
-            }
-              
+            }   
         }
 
-        playerPositions[activePlayer].GetComponent<SquareScript>().Landed();
+        playerPositions[activePlayer].Landed();
     }
 
 
