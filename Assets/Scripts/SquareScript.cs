@@ -28,31 +28,34 @@ public class SquareScript : MonoBehaviour
     {
         DestroyAllBridges();
         UpdatePaths();
-        m_renderer = GetComponent<MeshRenderer>();
-        originalColor = m_renderer.material.color;
 
-
+        if (Application.IsPlaying(gameObject))
+        {
+            m_renderer = GetComponent<MeshRenderer>();
+            originalColor = m_renderer.material.color;
         // Canvas
-        canvasBase = new GameObject("SquareCanvas");
-        canvasBase.AddComponent<Canvas>();
+            canvasBase = new GameObject("SquareCanvas");
+            canvasBase.AddComponent<Canvas>();
 
-        canvasBase.transform.SetParent(transform, false);
-        canvas = canvasBase.GetComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvasBase.AddComponent<CanvasScaler>();
-        canvasBase.AddComponent<GraphicRaycaster>();
-        CanvasScaler c = canvas.GetComponent<CanvasScaler>();
-        c.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasBase.SetActive(false);
 
-        panelBase = new GameObject("Panel");
-        panelBase.AddComponent<CanvasRenderer>();
-        Image i = panelBase.AddComponent<Image>();
-        i.color = Color.cyan;
+            canvasBase.transform.SetParent(transform, false);
+            canvas = canvasBase.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasBase.AddComponent<CanvasScaler>();
+            canvasBase.AddComponent<GraphicRaycaster>();
+            CanvasScaler c = canvas.GetComponent<CanvasScaler>();
+            c.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
-        var pos =  Camera.main.WorldToScreenPoint(transform.position);
-        panelBase.transform.SetParent(canvasBase.transform, true);
-        panelBase.transform.position = new Vector3(pos.x, pos.y, pos.z);
+            panelBase = new GameObject("Panel");
+            panelBase.AddComponent<CanvasRenderer>();
+            Image i = panelBase.AddComponent<Image>();
+            i.color = Color.cyan;
 
+            var pos =  Camera.main.WorldToScreenPoint(transform.position);
+            panelBase.transform.SetParent(canvasBase.transform, true);
+            panelBase.transform.position = new Vector3(pos.x, pos.y, pos.z);
+        }
     }
     public void Landed()
     {
