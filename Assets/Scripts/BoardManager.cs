@@ -16,6 +16,8 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Animator diceAnim;
     private LineRenderer line;
 
+    private Vector3[] possibleOffsets = {Vector3.zero, new Vector3(0.5f,0,0.5f), new Vector3(0.5f,0,-0.5f), new Vector3(-0.5f, 0, 0.5f)};
+
     SquareScript GetNSquaresForwardPrimary(SquareScript from, int N) {
         // stay in the last square
         var current = from;
@@ -94,20 +96,10 @@ public class BoardManager : MonoBehaviour
         playerPieces = new Transform[4];
         playerValues = new PlayerScript[4];
 
-        // Form a graph of the game board squares
-        // startSquare = boardParent.GetChild(0).GetComponent<SquareScript>();
-        // startSquare.connections = new List<SquareScript>{boardParent.GetChild(1).GetComponent<SquareScript>()};
-        // for (int i = 1; i < boardParent.childCount - 1; i++)
-        // {
-        //     boardParent.GetChild(i).GetComponent<SquareScript>().connections = new List<SquareScript> {boardParent.GetChild(i+1).GetComponent<SquareScript>()};
-        // }
-        // boardParent.GetChild(boardParent.childCount - 1).GetComponent<SquareScript>().connections = new List<SquareScript> {startSquare};
-
-
         for (int i = 0; i < 4; i++)
         {
             playerPositions[i] = startSquare;
-            playerPieces[i] = Instantiate(playerPiece, startSquare.transform.position + Vector3.left * 0.5f * i, Quaternion.identity, pieceParent).transform;
+            playerPieces[i] = Instantiate(playerPiece, startSquare.transform.position + possibleOffsets[i], Quaternion.identity, pieceParent).transform;
             playerPieces[i].GetComponent<MeshRenderer>().material.color = playerColors[i];
             playerValues[i] = GameObject.FindObjectOfType<PlayerScript>();
         }
@@ -149,28 +141,18 @@ public class BoardManager : MonoBehaviour
             playerPositions[activePlayer] = GetNSquaresForwardPrimary(playerPositions[activePlayer], 1);
             Vector3 targetPosition = playerPositions[activePlayer].transform.position;
 
-            int playersOnSameSquare = 0;
-            foreach(Transform player in playerPieces)
-            {
-                if((player.position - targetPosition).magnitude < 0.75f)
-                {
-                    playersOnSameSquare++;
+            for (int j = 0; j < 4; j++) {
+                var collision = false;
+                foreach (var player in playerPieces) {
+                    if (player!=playerPieces[activePlayer] && (player.transform.position-(targetPosition+possibleOffsets[j])).magnitude < 0.2) {
+                        collision = true;
+                        break;
+                    }
                 }
-            }
-            if(playersOnSameSquare == 1)
-            {
-                targetPosition += Vector3.right * 0.5f;
-                targetPosition += Vector3.forward * 0.5f;
-            }
-            else if (playersOnSameSquare == 2)
-            {
-                targetPosition += Vector3.right * 0.5f;
-                targetPosition += Vector3.forward * -0.5f;
-            }
-            else if (playersOnSameSquare == 3)
-            {
-                targetPosition += Vector3.right * -0.5f;
-                targetPosition += Vector3.forward * -0.5f;
+                if (!collision) {
+                    targetPosition += possibleOffsets[j];
+                    break;
+                }
             }
 
             float timer = 0;
@@ -179,7 +161,8 @@ public class BoardManager : MonoBehaviour
                 playerPieces[activePlayer].transform.position = Vector3.Lerp(startPosition, targetPosition, timer) + Vector3.up * Mathf.Sin(timer * Mathf.PI);
                 timer += Time.deltaTime * 10;
                 yield return null;
-            }   
+            }
+            playerPieces[activePlayer].transform.position = targetPosition;
         }
 
         playerPositions[activePlayer].Landed();
