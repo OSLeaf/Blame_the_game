@@ -177,7 +177,7 @@ public class BoardManager : MonoBehaviour
             while(timer < 1)
             {
                 playerPieces[activePlayer].transform.position = Vector3.Lerp(startPosition, targetPosition, timer) + Vector3.up * Mathf.Sin(timer * Mathf.PI);
-                timer += Time.deltaTime * 1;
+                timer += Time.deltaTime * 10;
                 yield return null;
             }   
         }
