@@ -108,7 +108,6 @@ public class ChanceCardManager : MonoBehaviour
             timer += Time.deltaTime * 1.0f;
             card.transform.position = Vector3.Lerp(source, target, timer);
         }
-        
         yield return null;
     }
 }
