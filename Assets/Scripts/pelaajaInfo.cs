@@ -61,7 +61,7 @@ public class pelaajaInfo : MonoBehaviour
             Debug.Log(sydamet);
             sydan.color = new Color(player.relationships[p] / 100, 0, 0);
             Debug.Log("color löydetty");
-            sydan.GetComponentInChildren<Text>().text = "" + player.relationships[p];
+            //sydan.GetComponentInChildren<Text>().text = "" + player.relationships[p];
             i += 1;
         }
 
