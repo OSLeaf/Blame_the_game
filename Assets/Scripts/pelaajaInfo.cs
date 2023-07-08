@@ -51,7 +51,10 @@ public class pelaajaInfo : MonoBehaviour
             t.fontSize = 12f;
             t.color = Color.white;
             tekstiObjekti.transform.parent = gameObject.transform;
-            t.transform.position = new Vector3(500, 200, 0);
+            tekstiObjekti.transform.position = new Vector3(250, 100, 0);
+            tekstiObjekti.name = "TemporaryText";
+            tekstiObjekti.transform.localPosition = new Vector3(0, 0, 0);
+
            
         }
 
@@ -102,7 +105,7 @@ public class pelaajaInfo : MonoBehaviour
         muokattava = texts.First(t => t.name == "Name");
         muokattava.text = player.name;
         muokattava = texts.First(t => t.name == "Money");
-        //muokattava.text = player.name;
+        muokattava.text = "" + player.money;
 
         //Debug.Log(texts);
 
@@ -125,9 +128,10 @@ public class pelaajaInfo : MonoBehaviour
         muokattava = texts.First(t => t.name == "Name");
         muokattava.text = "";
         muokattava = texts.First(t => t.name == "Money");
+        muokattava.text = "Money";
         gameObject.SetActive(false);
 
-        foreach (TextMeshProUGUI t in texts.Where(a => a.name == "New Game Object"))
+        foreach (TextMeshProUGUI t in texts.Where(a => a.name == "TemporaryText"))
         {
            Destroy(t.gameObject);
         }
