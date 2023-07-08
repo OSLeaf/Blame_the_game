@@ -21,12 +21,16 @@ public class LandOnTile : MonoBehaviour
 
     public void Play()
     {
+        var player = boardManager.CurrentPlayer();
         if (tileBehavior == "happiness")
         {
-            var player = boardManager.CurrentPlayer();
             player.happiness += tileChange;
-            boardManager.NextTurn();
         }
+        else if (tileBehavior == "luck")
+        {
+            player.luck += tileChange;
+        }
+        boardManager.NextTurn();
     }
 
     public void ChangeTileBehavior(string behavior, int change = 0)

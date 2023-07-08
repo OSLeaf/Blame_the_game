@@ -9,7 +9,10 @@ public class UIScript : MonoBehaviour, IPointerExitHandler
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("CheckIfShouldSelfDestruct", 0, 0.1f);
+        if (transform.parent.transform.parent.GetComponent<SquareScript>().startSelfDestruct)
+        {
+            InvokeRepeating("CheckIfShouldSelfDestruct", 0, 0.1f);
+        }
     }
 
     // Update is called once per frame
@@ -30,10 +33,13 @@ public class UIScript : MonoBehaviour, IPointerExitHandler
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        SelfDestruct();
+        if (transform.parent.transform.parent.GetComponent<SquareScript>().startSelfDestruct)
+        {
+            SelfDestruct();
+        }
     }
 
-    void SelfDestruct()
+    public void SelfDestruct()
     {
         firstTick = true;
         var square = transform.parent.transform.parent;

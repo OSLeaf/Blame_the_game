@@ -54,6 +54,9 @@ MonoBehaviour:
   text: {fileID: 0}
   canvasBase: {fileID: 0}
   panelBase: {fileID: 0}
+  startSelfDestruct: 1
+  textInputField: {fileID: 3940826553513939374, guid: d2cda9bc16e8682a28193ec956a0bd2f, type: 3}
+  addButton: {fileID: 6816252587505112909, guid: 43193d28403961130995900eeb53e88e, type: 3}
 --- !u!114 &4368411960699611238
 MonoBehaviour:
   m_ObjectHideFlags: 0
