@@ -78,11 +78,12 @@ public class SquareScript : MonoBehaviour
 
         createButton("Happiness", 60);
         createButton("Luck", 25);
+        createButton("Chance", -15, false);
 
         squareManager.squareUIisActive = true;
     }
 
-    private void createButton(string behavior, int yoffset)
+    private void createButton(string behavior, int yoffset, bool createpopup = true)
     {
         GameObject buttonBase = new GameObject("Button");
         buttonBase.AddComponent<CanvasRenderer>();
@@ -91,7 +92,14 @@ public class SquareScript : MonoBehaviour
         var buttPos = buttonImage.rectTransform.anchoredPosition3D;
         buttonImage.rectTransform.anchoredPosition = new Vector2(buttPos.x, buttPos.y + yoffset);
         Button button = buttonBase.AddComponent<Button>();
-        button.onClick.AddListener(delegate {ShowPopUp(behavior);} );
+        if (createpopup)
+        {
+            button.onClick.AddListener(delegate {ShowPopUp(behavior);} );
+        }
+        else
+        {
+            button.onClick.AddListener(delegate {transform.GetComponent<LandOnTile>().ChangeTileBehavior(behavior);}); 
+        }
 
         buttonBase.transform.SetParent(panelBase.transform, false); 
 

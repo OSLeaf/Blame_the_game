@@ -5,12 +5,14 @@ using UnityEngine;
 public class LandOnTile : MonoBehaviour
 {
     public BoardManager boardManager;
+    public ChanceCardManager chanceManager;
     string tileBehavior = "happiness";
     int tileChange = 1;
     // Start is called before the first frame update
     void Start()
     {
         boardManager = GameObject.FindObjectOfType<BoardManager>();
+        chanceManager = GameObject.FindAnyObjectByType<ChanceCardManager>();
     }
 
     // Update is called once per frame
@@ -29,6 +31,10 @@ public class LandOnTile : MonoBehaviour
         else if (tileBehavior == "luck")
         {
             player.luck += tileChange;
+        }
+        else if (tileBehavior == "chance")
+        {
+            chanceManager.DrawCard();
         }
         boardManager.NextTurn();
     }
