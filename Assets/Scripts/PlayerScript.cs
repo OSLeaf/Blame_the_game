@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -32,4 +33,21 @@ public class PlayerScript : MonoBehaviour
         }
         relationships[player] += change;
     }
+
+    public void OnMouseEnter()
+    {
+        Debug.Log("tunnen sinut");
+        pelaajaInfo info = FindObjectOfType<pelaajaInfo>(true); //
+        Debug.Log("pelaajainfo löydetty");
+        info.LoadPlayer(this);
+       
+    }
+
+    public void OnMouseExit()
+    {
+        pelaajaInfo info = FindObjectOfType<pelaajaInfo>(true); //
+        info.gameObject.SetActive(false);
+        
+    }
+
 }
