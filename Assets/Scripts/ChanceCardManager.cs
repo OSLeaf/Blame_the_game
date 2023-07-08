@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ChanceCardManager : MonoBehaviour
 {
     private Stack<ChanceBase> deck = new Stack<ChanceBase>();
-    [SerializeField]
-    private ChanceCard chanceCardAsset;
+    [SerializeField] private ChanceCard chanceCardUIAsset;
+    [SerializeField] private ChanceCard chanceCard3DAsset;
+    [SerializeField] private GameObject deckBase;
     private bool isPicking = false;
     private GameObject confirmButton;
     // Start is called before the first frame update
@@ -16,9 +18,9 @@ public class ChanceCardManager : MonoBehaviour
         confirmButton = transform.GetChild(0).gameObject;
         confirmButton.SetActive(isPicking);
         foreach (var c in GetComponents<ChanceBase>()) {
-            Debug.Log(c.description);
             deck.Push(c);
         }
+        UpdateDeckVisual();
     }
 
     public void DrawCard() {
@@ -32,19 +34,30 @@ public class ChanceCardManager : MonoBehaviour
         } else {
             Debug.Log("Tried to draw from empty deck.");
         }
+        UpdateDeckVisual();
         if (deck.Count == 0) {
             TopUpDeck();
         }
     }
 
+    private void UpdateDeckVisual() {
+        if (deck.Count > 0) {
+            deckBase.GetComponentInChildren<TextMeshPro>().text = deck.Count.ToString();
+            deckBase.transform.GetChild(0).gameObject.SetActive(true);
+        } else  {
+            deckBase.GetComponentInChildren<TextMeshPro>().text = "";
+            deckBase.transform.GetChild(0).gameObject.SetActive(false);
+        }
+    }
+
     public void TopUpDeck() {
-        Debug.Log("FUFUFUUFFUFUUFFUU");
         isPicking = true;
         confirmButton.SetActive(isPicking);
         foreach (var c in GetComponents<ChanceBase>()) {
             var pos = new Vector3(Random.Range(-400,400),Random.Range(-300,300),0);
-            var card = Instantiate(chanceCardAsset, pos, Quaternion.identity);
+            var card = Instantiate(chanceCardUIAsset, pos, Quaternion.identity);
             card.card = c;
+            card.SetPicture(c.texture);
             card.transform.SetParent(transform, false);
         }
     }
@@ -70,6 +83,7 @@ public class ChanceCardManager : MonoBehaviour
         foreach (var c in GetComponentsInChildren<ChanceCard>()) {
             Destroy(c.gameObject);
         }
+        UpdateDeckVisual();
         isPicking = false;
         confirmButton.SetActive(isPicking);
     }
