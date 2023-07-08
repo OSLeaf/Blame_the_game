@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems; // Required when using Event data.
 
 public class ChanceCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler // required interface when using the OnPointerEnter method.
@@ -44,5 +45,9 @@ public class ChanceCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         var target = new Vector2(Mathf.Clamp(transform.localPosition.x,-400,400),0);
         var difference = new Vector2(transform.localPosition.x,transform.localPosition.y) - target;
         rb.AddForce(-difference*10f,ForceMode2D.Force);
+    }
+
+    public void SetPicture(Texture2D texture) {
+        transform.GetChild(0).GetComponent<RawImage>().texture = texture;
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 public interface ChanceBase
 {
     public string description {get;}
-    public virtual void Affect() {
-        Debug.Log("BASE");
-    }
+    public Texture2D texture {get;}
+    public virtual void Affect() {}
 }

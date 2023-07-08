@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class ChanceCardManager : MonoBehaviour
 {
     private Stack<ChanceBase> deck = new Stack<ChanceBase>();
-    [SerializeField]
-    private ChanceCard chanceCardAsset;
+    [SerializeField] private ChanceCard chanceCardUIAsset;
+    [SerializeField] private ChanceCard chanceCard3DAsset;
+    [SerializeField] private GameObject deckBase;
     private bool isPicking = false;
     private GameObject confirmButton;
     // Start is called before the first frame update
@@ -16,7 +17,6 @@ public class ChanceCardManager : MonoBehaviour
         confirmButton = transform.GetChild(0).gameObject;
         confirmButton.SetActive(isPicking);
         foreach (var c in GetComponents<ChanceBase>()) {
-            Debug.Log(c.description);
             deck.Push(c);
         }
     }
@@ -38,13 +38,13 @@ public class ChanceCardManager : MonoBehaviour
     }
 
     public void TopUpDeck() {
-        Debug.Log("FUFUFUUFFUFUUFFUU");
         isPicking = true;
         confirmButton.SetActive(isPicking);
         foreach (var c in GetComponents<ChanceBase>()) {
             var pos = new Vector3(Random.Range(-400,400),Random.Range(-300,300),0);
-            var card = Instantiate(chanceCardAsset, pos, Quaternion.identity);
+            var card = Instantiate(chanceCardUIAsset, pos, Quaternion.identity);
             card.card = c;
+            card.SetPicture(c.texture);
             card.transform.SetParent(transform, false);
         }
     }
@@ -72,6 +72,9 @@ public class ChanceCardManager : MonoBehaviour
         }
         isPicking = false;
         confirmButton.SetActive(isPicking);
+        // foreach () {
+
+        // }
     }
 
     // Update is called once per frame

@@ -57,7 +57,6 @@ public class SquareScript : MonoBehaviour
 
     private void OnMouseOver()
     {  
-        Debug.Log("Sup");
         if (squareManager.squareUIisActive || !squareManager.allowSquareUIActivation) {
             return;
         }
