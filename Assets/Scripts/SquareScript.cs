@@ -78,27 +78,33 @@ public class SquareScript : MonoBehaviour
         panelBase.transform.position = new Vector3(pos.x, pos.y, pos.z);
         panelBase.AddComponent<UIScript>();
 
+        createButton("Happiness", 60);
+        createButton("Luck", 25);
+
+        squareManager.squareUIisActive = true;
+    }
+
+    private void createButton(string behavior, int yoffset)
+    {
         GameObject buttonBase = new GameObject("Button");
         buttonBase.AddComponent<CanvasRenderer>();
         Image buttonImage = buttonBase.AddComponent<Image>();
         buttonImage.rectTransform.sizeDelta = new Vector2(70, 30);
         var buttPos = buttonImage.rectTransform.anchoredPosition3D;
-        buttonImage.rectTransform.anchoredPosition = new Vector2(buttPos.x, buttPos.y + 60);
+        buttonImage.rectTransform.anchoredPosition = new Vector2(buttPos.x, buttPos.y + yoffset);
         Button button = buttonBase.AddComponent<Button>();
-        // button.onClick.AddListener(delegate { transform.GetComponent<LandOnTile>().ChangeTileBehavior("Happiness", 10); } );
-        button.onClick.AddListener(delegate {ShowPopUp("Happiness");} );
+        button.onClick.AddListener(delegate {ShowPopUp(behavior);} );
 
         buttonBase.transform.SetParent(panelBase.transform, false); 
 
         GameObject textComponent = new GameObject("Text");
         text = textComponent.AddComponent<TextMeshProUGUI>();
-        text.text = "Happiness";
+        text.text = behavior;
         text.fontSize = 10;
         text.color = Color.black;
         text.transform.position = new Vector3(text.transform.position.x + 75, text.transform.position.y - 17, text.transform.position.z);
 
         textComponent.transform.SetParent(buttonBase.transform, false);
-        squareManager.squareUIisActive = true;
     }
 
     private void ShowPopUp(string behavior)
@@ -144,7 +150,7 @@ public class SquareScript : MonoBehaviour
     void SubmitChangeEvent(string behavior)
     {
         int change = Int32.Parse(panelBase.GetComponentInChildren<TMP_InputField>().text);
-        transform.GetComponent<LandOnTile>().ChangeTileBehavior("Happiness", change);
+        transform.GetComponent<LandOnTile>().ChangeTileBehavior(behavior, change);
         DestroyPopUp();
     }
 
