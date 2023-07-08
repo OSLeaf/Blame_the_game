@@ -19,7 +19,7 @@ public class SquareScript : MonoBehaviour
     public GameObject canvasBase;
     Canvas canvas;
     public GameObject panelBase;
-
+    SquareManagementScript squareManager;
     public void Start()
     {
         DestroyAllBridges();
@@ -27,6 +27,7 @@ public class SquareScript : MonoBehaviour
 
         if (Application.IsPlaying(gameObject))
         {
+            squareManager = transform.parent.GetComponent<SquareManagementScript>();
             m_renderer = GetComponent<MeshRenderer>();
             originalColor = m_renderer.material.color;
         // Canvas
@@ -58,7 +59,10 @@ public class SquareScript : MonoBehaviour
     }
 
     private void OnMouseEnter()
-    {    
+    {   
+        if (squareManager.squareUIisActive) {
+            return;
+        }
         canvasBase.SetActive(true);
         panelBase = new GameObject("Panel");
         panelBase.AddComponent<CanvasRenderer>();
@@ -78,6 +82,7 @@ public class SquareScript : MonoBehaviour
         var buttPos = buttonImage.rectTransform.anchoredPosition3D;
         buttonImage.rectTransform.anchoredPosition = new Vector2(buttPos.x, buttPos.y + 60);
         Button button = buttonBase.AddComponent<Button>();
+        button.onClick.AddListener(delegate { transform.GetComponent<LandOnTile>().ChangeTileBehavior("Happiness", 10); } );
 
         buttonBase.transform.SetParent(panelBase.transform, false); 
 
@@ -89,6 +94,7 @@ public class SquareScript : MonoBehaviour
         text.transform.position = new Vector3(text.transform.position.x + 75, text.transform.position.y - 17, text.transform.position.z);
 
         textComponent.transform.SetParent(buttonBase.transform, false);
+        squareManager.squareUIisActive = true;
     }
 
     private void DestroyBridge(SquareScript target) {

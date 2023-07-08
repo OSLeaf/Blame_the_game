@@ -5,6 +5,8 @@ using UnityEngine;
 public class LandOnTile : MonoBehaviour
 {
     public BoardManager boardManager;
+    string tileBehavior = "happiness";
+    int tileChange = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +21,17 @@ public class LandOnTile : MonoBehaviour
 
     public void Play()
     {
-        var player = boardManager.CurrentPlayer();
-        player.happiness += 1;
-        boardManager.NextTurn();
+        if (tileBehavior == "happiness")
+        {
+            var player = boardManager.CurrentPlayer();
+            player.happiness += tileChange;
+            boardManager.NextTurn();
+        }
+    }
+
+    public void ChangeTileBehavior(string behavior, int change = 0)
+    {
+        tileBehavior = behavior.ToLower();
+        tileChange = change;
     }
 }
