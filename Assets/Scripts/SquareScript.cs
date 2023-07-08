@@ -12,7 +12,6 @@ public class SquareScript : MonoBehaviour
     [SerializeField] private BridgeScript bridgeAsset;
     private Dictionary<SquareScript,BridgeScript> bridges = new Dictionary<SquareScript, BridgeScript>();
     // Start is called before the first frame update
-    MeshRenderer m_renderer;
     Color overColor = Color.yellow;
     Color originalColor;
     public TMP_Text text;
@@ -28,8 +27,6 @@ public class SquareScript : MonoBehaviour
         if (Application.IsPlaying(gameObject))
         {
             squareManager = transform.parent.GetComponent<SquareManagementScript>();
-            m_renderer = GetComponent<MeshRenderer>();
-            originalColor = m_renderer.material.color;
         // Canvas
             canvasBase = new GameObject("SquareCanvas");
             canvasBase.AddComponent<Canvas>();
@@ -59,7 +56,8 @@ public class SquareScript : MonoBehaviour
     }
 
     private void OnMouseOver()
-    {   
+    {  
+        Debug.Log("Sup");
         if (squareManager.squareUIisActive || !squareManager.allowSquareUIActivation) {
             return;
         }
@@ -133,8 +131,7 @@ public class SquareScript : MonoBehaviour
                 bridges.Add(connection, bridge);
             }
             bridge.transform.SetPositionAndRotation(transform.position, Quaternion.LookRotation(difference, Vector3.up));
-            // var globalscalefactor = bridge.transform.lossyScale.z/bridge.transform.localScale.z;
-            var globalscalefactor = 1.0f;
+            var globalscalefactor = bridge.transform.lossyScale.z/bridge.transform.localScale.z;
             bridge.transform.localScale = new Vector3(1,1,difference.magnitude/globalscalefactor);
             bridge.transform.parent = transform;
         }
