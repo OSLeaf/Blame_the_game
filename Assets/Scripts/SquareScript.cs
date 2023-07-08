@@ -58,7 +58,7 @@ public class SquareScript : MonoBehaviour
         }
     }
 
-    private void OnMouseEnter()
+    private void OnMouseOver()
     {   
         if (squareManager.squareUIisActive) {
             return;
