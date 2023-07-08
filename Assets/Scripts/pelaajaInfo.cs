@@ -63,7 +63,21 @@ public class pelaajaInfo : MonoBehaviour
             //sydan.GetComponentInChildren<Text>().text = "" + player.relationships[p];
             i += 1;
 
-        }
+
+        var texts = new HashSet<Text>(GetComponentsInChildren<Text>(true));
+        //UnityEngine.UI.Text muokattava = texts.First(t => t.name == "Happiness");
+        //muokattava.text = muokattava.text + "    " + player.happiness;
+        //muokattava = texts.First(t => t.name == "Vitutus");
+        //muokattava.text = muokattava.text + "    " + player.vitutus;
+        //muokattava = texts.First(t => t.name == "Luck");
+        //muokattava.text = muokattava.text + "    " + player.luck;
+
+        //muokattava = texts.First(t => t.name == "Name");
+        //muokattava.text = player.name;
+        Debug.Log(texts);
+
+
+
         
     }
 
