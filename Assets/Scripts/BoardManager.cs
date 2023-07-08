@@ -118,8 +118,11 @@ public class BoardManager : MonoBehaviour
         line.startColor = playerColors[activePlayer];
         line.endColor = line.startColor;
         line.enabled = true;
-        line.SetPosition(0, playerPieces[activePlayer].transform.position);
-        line.SetPosition(1, GetNSquaresForwardPrimary(playerPositions[activePlayer], count).transform.position);
+        var pos1 = playerPieces[activePlayer].transform.position;
+        var pos2 = GetNSquaresForwardPrimary(playerPositions[activePlayer], count).transform.position;
+        line.SetPosition(0, pos1+0.5f*Vector3.up);
+        line.SetPosition(1, (pos1+pos2)*0.5f+1.5f*Vector3.up);
+        line.SetPosition(2, pos2+0.5f*Vector3.up);
 
     }
     public void DiceHowerEnd()
