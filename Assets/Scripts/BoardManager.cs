@@ -96,12 +96,12 @@ public class BoardManager : MonoBehaviour
 
         // Form a graph of the game board squares
         startSquare = boardParent.GetChild(0).GetComponent<SquareScript>();
-        startSquare.connections = new List<SquareScript>{boardParent.GetChild(1).GetComponent<SquareScript>()};
-        for (int i = 1; i < boardParent.childCount - 1; i++)
-        {
-            boardParent.GetChild(i).GetComponent<SquareScript>().connections = new List<SquareScript> {boardParent.GetChild(i+1).GetComponent<SquareScript>()};
-        }
-        boardParent.GetChild(boardParent.childCount - 1).GetComponent<SquareScript>().connections = new List<SquareScript> {startSquare};
+        // startSquare.connections = new List<SquareScript>{boardParent.GetChild(1).GetComponent<SquareScript>()};
+        // for (int i = 1; i < boardParent.childCount - 1; i++)
+        // {
+        //     boardParent.GetChild(i).GetComponent<SquareScript>().connections = new List<SquareScript> {boardParent.GetChild(i+1).GetComponent<SquareScript>()};
+        // }
+        // boardParent.GetChild(boardParent.childCount - 1).GetComponent<SquareScript>().connections = new List<SquareScript> {startSquare};
 
 
         for (int i = 0; i < 4; i++)
