@@ -58,7 +58,7 @@ public class SquareScript : MonoBehaviour
         }
     }
 
-    private void OnMouseEnter()
+    private void OnMouseOver()
     {   
         if (squareManager.squareUIisActive) {
             return;
@@ -67,7 +67,7 @@ public class SquareScript : MonoBehaviour
         panelBase = new GameObject("Panel");
         panelBase.AddComponent<CanvasRenderer>();
         Image i = panelBase.AddComponent<Image>();
-        i.color = Color.cyan;
+        i.color = new Color32(204,199,193,255);
         i.rectTransform.sizeDelta = new Vector2(80, 160);
 
         var pos =  Camera.main.WorldToScreenPoint(transform.position);
