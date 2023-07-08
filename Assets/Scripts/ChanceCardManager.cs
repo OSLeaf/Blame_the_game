@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ChanceCardManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class ChanceCardManager : MonoBehaviour
         foreach (var c in GetComponents<ChanceBase>()) {
             deck.Push(c);
         }
+        UpdateDeckVisual();
     }
 
     public void DrawCard() {
@@ -32,8 +34,19 @@ public class ChanceCardManager : MonoBehaviour
         } else {
             Debug.Log("Tried to draw from empty deck.");
         }
+        UpdateDeckVisual();
         if (deck.Count == 0) {
             TopUpDeck();
+        }
+    }
+
+    private void UpdateDeckVisual() {
+        if (deck.Count > 0) {
+            deckBase.GetComponentInChildren<TextMeshPro>().text = deck.Count.ToString();
+            deckBase.transform.GetChild(0).gameObject.SetActive(true);
+        } else  {
+            deckBase.GetComponentInChildren<TextMeshPro>().text = "";
+            deckBase.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
 
@@ -70,11 +83,9 @@ public class ChanceCardManager : MonoBehaviour
         foreach (var c in GetComponentsInChildren<ChanceCard>()) {
             Destroy(c.gameObject);
         }
+        UpdateDeckVisual();
         isPicking = false;
         confirmButton.SetActive(isPicking);
-        // foreach () {
-
-        // }
     }
 
     // Update is called once per frame
