@@ -60,7 +60,7 @@ public class SquareScript : MonoBehaviour
 
     private void OnMouseOver()
     {   
-        if (squareManager.squareUIisActive) {
+        if (squareManager.squareUIisActive || !squareManager.allowSquareUIActivation) {
             return;
         }
         canvasBase.SetActive(true);
@@ -133,7 +133,8 @@ public class SquareScript : MonoBehaviour
                 bridges.Add(connection, bridge);
             }
             bridge.transform.SetPositionAndRotation(transform.position, Quaternion.LookRotation(difference, Vector3.up));
-            var globalscalefactor = bridge.transform.lossyScale.z/bridge.transform.localScale.z;
+            // var globalscalefactor = bridge.transform.lossyScale.z/bridge.transform.localScale.z;
+            var globalscalefactor = 1.0f;
             bridge.transform.localScale = new Vector3(1,1,difference.magnitude/globalscalefactor);
             bridge.transform.parent = transform;
         }

@@ -47,7 +47,7 @@ public class PlayerScript : MonoBehaviour
     public void OnMouseExit()
     {
         pelaajaInfo info = FindObjectOfType<pelaajaInfo>(true); //
-        info.gameObject.SetActive(false);
+        info.Close();
         
     }
 
