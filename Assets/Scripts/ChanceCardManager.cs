@@ -8,7 +8,7 @@ public class ChanceCardManager : MonoBehaviour
 {
     private Stack<ChanceBase> deck = new Stack<ChanceBase>();
     [SerializeField] private ChanceCard chanceCardUIAsset;
-    [SerializeField] private ChanceCard chanceCard3DAsset;
+    [SerializeField] private ChanceCard3D chanceCard3DAsset;
     [SerializeField] private GameObject deckBase;
     private bool isPicking = false;
     private GameObject confirmButton;
@@ -96,5 +96,19 @@ public class ChanceCardManager : MonoBehaviour
             Debug.Log("space key was pressed");
             DrawCard();
         }
+    }
+
+    IEnumerator DrawCoroutine(ChanceBase cardtype) {
+        ChanceCard3D card = Instantiate(chanceCard3DAsset, deckBase.transform.position, Quaternion.Euler(0,0,180));
+        Vector3 target = Camera.current.transform.position + Camera.current.transform.forward*6f;
+        Vector3 source = deckBase.transform.position;
+        card.SetTexture(cardtype.texture);
+        float timer = 0;
+        while (timer < 3) {
+            timer += Time.deltaTime * 1.0f;
+            card.transform.position = Vector3.Lerp(source, target, timer);
+        }
+        
+        yield return null;
     }
 }
