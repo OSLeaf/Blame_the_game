@@ -88,6 +88,11 @@ public class BoardManager : MonoBehaviour
         return playerValues[(activePlayer + 2) % 4];
     }
 
+    public PlayerScript nthPlayer(int n)
+    {
+        return playerValues[(activePlayer + n) % 4];
+    }
+
     // Start is called before the first frame update
     void Start()
     {

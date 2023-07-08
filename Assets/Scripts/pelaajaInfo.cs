@@ -12,13 +12,17 @@ using TMPro;
 public class pelaajaInfo : MonoBehaviour
 {
 
+
+    private BoardManager manager;
+
     // Start is called before the first frame update
     void Start()
     {
         //enabled = false;
         gameObject.SetActive(false);
 
-
+        manager = gameObject.transform.parent.gameObject.GetComponentInChildren<BoardManager>();
+        
         //line = GetComponent<LineRenderer>();
         //hearts = new Image[4];
         //playerValues = new PlayerScript[4];
@@ -35,7 +39,27 @@ public class pelaajaInfo : MonoBehaviour
     public void LoadPlayer(PlayerScript player)
     {
         gameObject.SetActive(true);
-        int i = 0;
+
+        int i;
+        for (i = 1; i <= player.relationships.Count; i++)
+        {
+            //Instantiate()
+            
+            GameObject tekstiObjekti = new GameObject();
+            TextMeshProUGUI t = tekstiObjekti.AddComponent<TextMeshProUGUI>();
+            t.SetText(manager.nthPlayer(i).name);
+            t.fontSize = 12f;
+            t.color = Color.white;
+            tekstiObjekti.transform.parent = gameObject.transform;
+            t.transform.position = new Vector3(500, 200, 0);
+           
+        }
+
+
+
+
+
+
         //int wtf = 100;
         //if (gameObject.GetType == typeOf(UnityEngine.UI.Image))
         //{
@@ -54,7 +78,8 @@ public class pelaajaInfo : MonoBehaviour
         //foreach (UnityEngine.UI.Image im in gameObject)
 
 
-        Debug.Log(sydamet);
+        //Debug.Log(sydamet);
+        i = 0;
         foreach (string p in player.relationships.Keys)
         {
             UnityEngine.UI.Image sydan = sydamet.ElementAt(i);
@@ -101,6 +126,11 @@ public class pelaajaInfo : MonoBehaviour
         muokattava.text = "";
         muokattava = texts.First(t => t.name == "Money");
         gameObject.SetActive(false);
+
+        foreach (TextMeshProUGUI t in texts.Where(a => a.name == "New Game Object"))
+        {
+           Destroy(t.gameObject);
+        }
     }
 
 
