@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 [ExecuteAlways]
 public class SquareScript : MonoBehaviour
@@ -19,6 +20,9 @@ public class SquareScript : MonoBehaviour
     Canvas canvas;
     public GameObject panelBase;
     SquareManagementScript squareManager;
+    public bool startSelfDestruct = true;
+    public GameObject textInputField;
+    public GameObject addButton;
     public void Start()
     {
         DestroyAllBridges();
@@ -57,7 +61,6 @@ public class SquareScript : MonoBehaviour
 
     private void OnMouseOver()
     {  
-        Debug.Log("Sup");
         if (squareManager.squareUIisActive || !squareManager.allowSquareUIActivation) {
             return;
         }
@@ -80,7 +83,8 @@ public class SquareScript : MonoBehaviour
         var buttPos = buttonImage.rectTransform.anchoredPosition3D;
         buttonImage.rectTransform.anchoredPosition = new Vector2(buttPos.x, buttPos.y + 60);
         Button button = buttonBase.AddComponent<Button>();
-        button.onClick.AddListener(delegate { transform.GetComponent<LandOnTile>().ChangeTileBehavior("Happiness", 10); } );
+        // button.onClick.AddListener(delegate { transform.GetComponent<LandOnTile>().ChangeTileBehavior("Happiness", 10); } );
+        button.onClick.AddListener(delegate {ShowPopUp("Happiness");} );
 
         buttonBase.transform.SetParent(panelBase.transform, false); 
 
@@ -93,6 +97,60 @@ public class SquareScript : MonoBehaviour
 
         textComponent.transform.SetParent(buttonBase.transform, false);
         squareManager.squareUIisActive = true;
+    }
+
+    private void ShowPopUp(string behavior)
+    {
+        startSelfDestruct = false;
+        panelBase.GetComponent<UIScript>().SelfDestruct();
+
+        canvasBase.SetActive(true);
+        panelBase = new GameObject("Panel");
+        panelBase.AddComponent<CanvasRenderer>();
+        Image i = panelBase.AddComponent<Image>();
+        i.color = new Color32(204,199,193,255);
+        i.rectTransform.sizeDelta = new Vector2(300, 100);
+
+        panelBase.transform.SetParent(canvasBase.transform, false);
+        panelBase.AddComponent<UIScript>();
+        
+
+        GameObject textComponent = new GameObject("Text");
+        text = textComponent.AddComponent<TextMeshProUGUI>();
+        text.text = behavior;
+        text.fontSize = 20;
+        text.transform.position = new Vector3(text.transform.position.x - 20, text.transform.position.y + 20, text.transform.position.z);
+        text.color = Color.black;
+
+        textComponent.transform.SetParent(panelBase.transform, false);
+
+        Vector3 pos = panelBase.transform.position;
+        GameObject textInput = Instantiate(textInputField, panelBase.transform.position, Quaternion.identity);
+        textInput.transform.SetParent(panelBase.transform, true);
+
+        GameObject changeButton = Instantiate(addButton, new Vector3(pos.x + 80,pos.y - 40, pos.y), Quaternion.identity);
+        GameObject cancelButton = Instantiate(addButton, new Vector3(pos.x - 80,pos.y - 40, pos.y), Quaternion.identity);
+        changeButton.GetComponent<Button>().onClick.AddListener(delegate {SubmitChangeEvent(behavior);});
+        changeButton.transform.SetParent(panelBase.transform, true);
+        cancelButton.GetComponent<Button>().onClick.AddListener(DestroyPopUp);
+        cancelButton.GetComponentInChildren<TextMeshProUGUI>().text = "Cancel";
+        cancelButton.transform.SetParent(panelBase.transform, true);
+
+        squareManager.allowSquareUIActivation = false;
+    }
+
+    void SubmitChangeEvent(string behavior)
+    {
+        int change = Int32.Parse(panelBase.GetComponentInChildren<TMP_InputField>().text);
+        transform.GetComponent<LandOnTile>().ChangeTileBehavior("Happiness", change);
+        DestroyPopUp();
+    }
+
+    void DestroyPopUp()
+    {
+        panelBase.GetComponent<UIScript>().SelfDestruct();
+        squareManager.allowSquareUIActivation = true;
+        startSelfDestruct = true;
     }
 
     private void DestroyBridge(SquareScript target) {
