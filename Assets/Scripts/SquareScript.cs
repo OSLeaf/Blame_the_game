@@ -23,7 +23,7 @@ public class SquareScript : MonoBehaviour
     public void Start()
     {
         DestroyAllBridges();
-        UpdatePaths();
+        UpdateBridges();
 
         if (Application.IsPlaying(gameObject))
         {
@@ -116,9 +116,8 @@ public class SquareScript : MonoBehaviour
         }
     }
 
-    public void UpdatePaths() {
+    public void UpdateBridges() {
         foreach (var connection in connections) {
-            // Debug.Log("Update paths");
             Vector3 difference = connection.transform.position - transform.position;
             BridgeScript bridge;
             if (bridges.ContainsKey(connection)) {
@@ -142,7 +141,7 @@ public class SquareScript : MonoBehaviour
 
     public void Update() {
         if(!Application.IsPlaying(gameObject)) {
-            UpdatePaths();
+            UpdateBridges();
         }
     }
 }

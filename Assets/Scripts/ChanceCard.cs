@@ -39,7 +39,6 @@ public class ChanceCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
     public void OnPointerDown(PointerEventData eventData) {
         selected = !selected;
-        Debug.Log("momomo");
     }
     void FixedUpdate() {
         var target = new Vector2(Mathf.Clamp(transform.localPosition.x,-400,400),0);
