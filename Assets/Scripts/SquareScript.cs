@@ -13,16 +13,12 @@ public class SquareScript : MonoBehaviour
     private Dictionary<SquareScript,BridgeScript> bridges = new Dictionary<SquareScript, BridgeScript>();
     // Start is called before the first frame update
     MeshRenderer m_renderer;
-
     Color overColor = Color.yellow;
-
     Color originalColor;
-    bool showgui = false;
-
     public TMP_Text text;
-    GameObject canvasBase;
+    public GameObject canvasBase;
     Canvas canvas;
-    GameObject panelBase;
+    public GameObject panelBase;
 
     public void Start()
     {
@@ -45,16 +41,7 @@ public class SquareScript : MonoBehaviour
             canvasBase.AddComponent<CanvasScaler>();
             canvasBase.AddComponent<GraphicRaycaster>();
             CanvasScaler c = canvas.GetComponent<CanvasScaler>();
-            c.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-
-            panelBase = new GameObject("Panel");
-            panelBase.AddComponent<CanvasRenderer>();
-            Image i = panelBase.AddComponent<Image>();
-            i.color = Color.cyan;
-
-            var pos =  Camera.main.WorldToScreenPoint(transform.position);
-            panelBase.transform.SetParent(canvasBase.transform, true);
-            panelBase.transform.position = new Vector3(pos.x, pos.y, pos.z);
+            c.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize; 
         }
     }
     public void Landed()
@@ -70,19 +57,38 @@ public class SquareScript : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
-    {
-        showgui = true;
-    }
+    private void OnMouseEnter()
+    {    
+        canvasBase.SetActive(true);
+        panelBase = new GameObject("Panel");
+        panelBase.AddComponent<CanvasRenderer>();
+        Image i = panelBase.AddComponent<Image>();
+        i.color = Color.cyan;
+        i.rectTransform.sizeDelta = new Vector2(80, 160);
 
-    private void OnMouseOver()
-    {
-        m_renderer.material.color = overColor;
-    }
+        var pos =  Camera.main.WorldToScreenPoint(transform.position);
+        panelBase.transform.SetParent(canvasBase.transform, true);
+        panelBase.transform.position = new Vector3(pos.x, pos.y, pos.z);
+        panelBase.AddComponent<UIScript>();
 
-    private void OnMouseExit()
-    {
-        m_renderer.material.color = originalColor;
+        GameObject buttonBase = new GameObject("Button");
+        buttonBase.AddComponent<CanvasRenderer>();
+        Image buttonImage = buttonBase.AddComponent<Image>();
+        buttonImage.rectTransform.sizeDelta = new Vector2(70, 30);
+        var buttPos = buttonImage.rectTransform.anchoredPosition3D;
+        buttonImage.rectTransform.anchoredPosition = new Vector2(buttPos.x, buttPos.y + 60);
+        Button button = buttonBase.AddComponent<Button>();
+
+        buttonBase.transform.SetParent(panelBase.transform, false); 
+
+        GameObject textComponent = new GameObject("Text");
+        text = textComponent.AddComponent<TextMeshProUGUI>();
+        text.text = "Happiness";
+        text.fontSize = 10;
+        text.color = Color.black;
+        text.transform.position = new Vector3(text.transform.position.x + 75, text.transform.position.y - 17, text.transform.position.z);
+
+        textComponent.transform.SetParent(buttonBase.transform, false);
     }
 
     private void DestroyBridge(SquareScript target) {
@@ -99,7 +105,7 @@ public class SquareScript : MonoBehaviour
         foreach (var conbridge in bridges) {
             DestroyBridge(conbridge.Key);
         }
-        if(Application.IsPlaying(gameObject)) {
+        if (Application.IsPlaying(gameObject)) {
             foreach (var bridge in GetComponentsInChildren<BridgeScript>()) {
                 Destroy(bridge.gameObject);
             }
