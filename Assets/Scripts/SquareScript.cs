@@ -11,6 +11,7 @@ public class SquareScript : MonoBehaviour
     [SerializeField] private List<MonoBehaviour> scriptsToRunWhenLanded;
     [SerializeField] public List<SquareScript> connections; // The squares that can be continued to
     [SerializeField] private BridgeScript bridgeAsset;
+    [SerializeField] private Texture2D picture;
     private Dictionary<SquareScript,BridgeScript> bridges = new Dictionary<SquareScript, BridgeScript>();
     // Start is called before the first frame update
     Color overColor = Color.yellow;
@@ -27,6 +28,7 @@ public class SquareScript : MonoBehaviour
     {
         DestroyAllBridges();
         UpdateBridges();
+        // UpdatePicture();
 
         if (Application.IsPlaying(gameObject))
         {
@@ -215,9 +217,22 @@ public class SquareScript : MonoBehaviour
         }
     }
 
+    private void UpdatePicture() {
+        if (picture == null) {return;}
+        for (int i = 0; i < transform.childCount; i++) {
+            if (transform.GetChild(i).name == "PICTUREPLANE") {
+                transform.GetChild(i).GetComponent<MeshRenderer>().material.SetTexture("_MainTex", picture);
+            }
+        }
+    }
+
     public void Update() {
         if(!Application.IsPlaying(gameObject)) {
             UpdateBridges();
         }
+    }
+
+    public void OnValidate() {
+        UpdatePicture();
     }
 }
