@@ -8,7 +8,7 @@ public class ChanceCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private static Vector3 hoverDistance = new Vector3(10,20f,0);
     private static float hoverRotation = 8f;
     private bool hovered = false;
-    private bool selected = false;
+    public bool selected = false;
     private float animationState = 0.0f;
     private static float animationSpeed = 15.0f;
     private Rigidbody2D rb;

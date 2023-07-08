@@ -9,9 +9,9 @@ public class BoardManager : MonoBehaviour
     public Color[] playerColors;
     [SerializeField] private GameObject playerPiece;
     [SerializeField] private Transform boardParent;
+    [SerializeField] private SquareScript startSquare;
     private Transform[] playerPieces;
     private SquareScript[] playerPositions;
-    private SquareScript startSquare;
     public PlayerScript[] playerValues;
     [SerializeField] private Animator diceAnim;
     private LineRenderer line;
@@ -95,7 +95,7 @@ public class BoardManager : MonoBehaviour
         playerValues = new PlayerScript[4];
 
         // Form a graph of the game board squares
-        startSquare = boardParent.GetChild(0).GetComponent<SquareScript>();
+        // startSquare = boardParent.GetChild(0).GetComponent<SquareScript>();
         // startSquare.connections = new List<SquareScript>{boardParent.GetChild(1).GetComponent<SquareScript>()};
         // for (int i = 1; i < boardParent.childCount - 1; i++)
         // {
