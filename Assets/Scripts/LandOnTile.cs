@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LandOnHappiness : MonoBehaviour
+public class LandOnTile : MonoBehaviour
 {
     public BoardManager boardManager;
     // Start is called before the first frame update
