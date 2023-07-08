@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
     public float happiness = 50;
     public float vitutus = 25;
     public float luck = 35;
+    public int money = 2000;
     public Dictionary<string, float> relationships = new Dictionary<string, float>(){
         {"1", 50},
         {"2", 50},
