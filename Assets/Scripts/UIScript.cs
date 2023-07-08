@@ -5,14 +5,15 @@ using UnityEngine.EventSystems;
 
 public class UIScript : MonoBehaviour, IPointerExitHandler
 {
-    bool firstTick = true;
+    public bool firstTick = true;
     // Start is called before the first frame update
     void Start()
     {
+        InvokeRepeating("CheckIfShouldSelfDestruct", 0, 0.1f);
     }
 
     // Update is called once per frame
-    void Update()
+    private void CheckIfShouldSelfDestruct()
     {
         if (!EventSystem.current.IsPointerOverGameObject() && transform.parent.transform.parent.GetComponent<SquareScript>().canvasBase.activeInHierarchy)
         {
@@ -21,8 +22,11 @@ public class UIScript : MonoBehaviour, IPointerExitHandler
                 return;
             }
             SelfDestruct();
-            return;
         }
+    }
+    void Update()
+    {
+
     }
     public void OnPointerExit(PointerEventData eventData)
     {

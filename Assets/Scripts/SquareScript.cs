@@ -60,7 +60,7 @@ public class SquareScript : MonoBehaviour
 
     private void OnMouseOver()
     {   
-        if (squareManager.squareUIisActive) {
+        if (squareManager.squareUIisActive || !squareManager.allowSquareUIActivation) {
             return;
         }
         canvasBase.SetActive(true);
