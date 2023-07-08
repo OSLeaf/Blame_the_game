@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
+using TMPro;
 
 public class pelaajaInfo : MonoBehaviour
 {
@@ -17,18 +18,18 @@ public class pelaajaInfo : MonoBehaviour
         //enabled = false;
         gameObject.SetActive(false);
 
-        
+
         //line = GetComponent<LineRenderer>();
         //hearts = new Image[4];
         //playerValues = new PlayerScript[4];
-    
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void LoadPlayer(PlayerScript player)
@@ -38,11 +39,11 @@ public class pelaajaInfo : MonoBehaviour
         //int wtf = 100;
         //if (gameObject.GetType == typeOf(UnityEngine.UI.Image))
         //{
-            GameObject[] tama = { gameObject};
+        GameObject[] tama = { gameObject };
         //}
         var sydamet = new HashSet<UnityEngine.UI.Image>(GetComponentsInChildren<UnityEngine.UI.Image>(true));
         sydamet.Remove(gameObject.GetComponent<UnityEngine.UI.Image>());
-       
+
         //for (i = 0; i < sydamet.Length; i++)
         //{
         //    if (sydamet[i].GetComponent<pelaajaInfo>() != null)// == gameObject)
@@ -60,26 +61,56 @@ public class pelaajaInfo : MonoBehaviour
             Debug.Log(sydamet);
             sydan.color = new Color(player.relationships[p] / 100, 0, 0);
             Debug.Log("color löydetty");
-            //sydan.GetComponentInChildren<Text>().text = "" + player.relationships[p];
+            sydan.GetComponentInChildren<Text>().text = "" + player.relationships[p];
             i += 1;
+        }
 
 
-        var texts = new HashSet<Text>(GetComponentsInChildren<Text>(true));
-        //UnityEngine.UI.Text muokattava = texts.First(t => t.name == "Happiness");
-        //muokattava.text = muokattava.text + "    " + player.happiness;
-        //muokattava = texts.First(t => t.name == "Vitutus");
-        //muokattava.text = muokattava.text + "    " + player.vitutus;
-        //muokattava = texts.First(t => t.name == "Luck");
-        //muokattava.text = muokattava.text + "    " + player.luck;
+        var texts = new HashSet<TextMeshProUGUI>(GetComponentsInChildren<TextMeshProUGUI>(true));
+        TextMeshProUGUI muokattava = texts.First(t => t.name == "Happiness");
+        muokattava.text = muokattava.text + "    " + player.happiness;
+        muokattava = texts.First(t => t.name == "Vitutus");
+        muokattava.text = muokattava.text + "    " + player.vitutus;
+        muokattava = texts.First(t => t.name == "Luck");
+        muokattava.text = muokattava.text + "    " + player.luck;
 
-        //muokattava = texts.First(t => t.name == "Name");
+        muokattava = texts.First(t => t.name == "Name");
+        muokattava.text = player.name;
+        muokattava = texts.First(t => t.name == "Money");
         //muokattava.text = player.name;
-        Debug.Log(texts);
+
+        //Debug.Log(texts);
 
 
 
+
+    }
+
+    public void Close() 
+    {
         
+        var texts = new HashSet<TextMeshProUGUI>(GetComponentsInChildren<TextMeshProUGUI>(true));
+        TextMeshProUGUI muokattava = texts.First(t => t.name == "Happiness");
+        muokattava.text = "Happiness";
+        muokattava = texts.First(t => t.name == "Vitutus");
+        muokattava.text = "Vitutus";
+        muokattava = texts.First(t => t.name == "Luck");
+        muokattava.text = "Luck";
+
+        muokattava = texts.First(t => t.name == "Name");
+        muokattava.text = "";
+        muokattava = texts.First(t => t.name == "Money");
+        gameObject.SetActive(false);
     }
 
 
+
+
+
+
+
 }
+
+
+
+
