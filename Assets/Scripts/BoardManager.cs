@@ -117,6 +117,7 @@ public class BoardManager : MonoBehaviour
             playerPieces[i] = Instantiate(playerPiece, startSquare.transform.position + possibleOffsets[i], Quaternion.identity, pieceParent).transform;
             playerPieces[i].GetComponent<MeshRenderer>().material.color = playerColors[i];
             playerValues[i] = GameObject.FindObjectOfType<PlayerScript>();
+            playerValues[i].name = "Player " + (i + 1);  
         }
 
     }
@@ -141,7 +142,7 @@ public class BoardManager : MonoBehaviour
         }
         catch (System.Exception e) 
         {
-            
+            Debug.Log(e);
         }   
 
 
@@ -163,7 +164,7 @@ public class BoardManager : MonoBehaviour
     private void UpdatePlayerStats()
     {
         int i;
-        int[] money = (int[])playerValues.Select(p => p.money);
+        List<int> money = playerValues.Select(p => p.money).ToList<int>();
         int suurin = money.Max();
         int suurinInd = money.ToList().IndexOf(suurin);
         List<int> vihattavat = new List<int>();
@@ -186,19 +187,23 @@ public class BoardManager : MonoBehaviour
             {
                 foreach (int saa in saalittavat)
                 {
-                    playerValues[saa].relationships["" + ((i - saa + 4) % 4)] += 5;
+                    string id = "" + ((i - saa + 4) % 4);
+                    if (id != "0") { playerValues[saa].relationships[id] += 5; };
                 }
                 playerValues[i].happiness -= 2;
                 playerValues[i].vitutus += 5;
                 foreach (int vih in vihattavat)
                 {
                     string id = "" + ((vih - i + 234632) % 4);
-                    playerValues[i].relationships[id] -= 5;
+                    if (id != "0") { playerValues[i].relationships[id] -= 5; };
                 }
                 saalittavat.Add(i);
                 foreach (int saa in saalittavat)
                 {
-                    playerValues[i].relationships["" + ((saa - i + 4) % 4)] += 5;
+                    string id = "" + ((saa - i + 4) % 4);
+                    if (id != "0")
+                    { playerValues[i].relationships[id] += 5; }
+
                 }
             } 
             else
@@ -206,13 +211,13 @@ public class BoardManager : MonoBehaviour
                 foreach (int vih in vihattavat)
                 {
                     string id = "" + ((vih - i + 497524) % 4);
-                    playerValues[i].relationships[id] -= 6;
+                    if (id != "0") { playerValues[i].relationships[id] -= 6; }
                 }
                 int j;
                 for ( j = 0; j<4; j++)
                 {
                     string id = "" + ((j - i + 497524) % 4);
-                    playerValues[i].relationships[id] += 2;
+                    if (id != "0") { playerValues[i].relationships[id] += 2; }
                 }
             }
         }

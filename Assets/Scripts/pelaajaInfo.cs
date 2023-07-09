@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.UIElements;
+using Unity.VisualScripting;
 using TMPro;
+using System.Drawing;
+using System.Net.Security;
 //using Image = UnityEngine.UI.Image;
 
 public class pelaajaInfo : MonoBehaviour
@@ -51,7 +56,7 @@ public class pelaajaInfo : MonoBehaviour
 
 
         gameObject.GetComponent<UnityEngine.UI.Image>().color = new UnityEngine.Color(manager.playerColors[playerId].r, manager.playerColors[playerId].g, manager.playerColors[playerId].b, 0.75f);
-        //       gameObject.GetComponent<UnityEngine.UI.Image>().color = ;
+        //       gameObject.GetComponent<UnityEngine.UI.Image>().color = ; 
 
 
 
@@ -62,7 +67,7 @@ public class pelaajaInfo : MonoBehaviour
 
             GameObject tekstiObjekti = new GameObject();
             TextMeshProUGUI t = tekstiObjekti.AddComponent<TextMeshProUGUI>();
-            t.SetText(manager.playerValues[(playerId + 1) % 4].name);
+            t.SetText(manager.playerValues[(playerId + i) % 4].name);
             t.fontSize = 12f;
             t.color = UnityEngine.Color.white;
             tekstiObjekti.transform.SetParent(gameObject.transform);
