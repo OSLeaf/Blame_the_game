@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build.Content;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -123,7 +122,7 @@ public class pelaajaInfo : MonoBehaviour
             float varikerroin = player.relationships[p] / 100;
             //img.color = new UnityEngine.Color(varikerroin, varikerroin / 4, varikerroin / 4)
             sydan.color = new UnityEngine.Color(varikerroin, varikerroin / 3, varikerroin / 3);
-            //Debug.Log("color löydetty");
+            //Debug.Log("color lï¿½ydetty");
             //sydan.GetComponentInChildren<Text>().text = "" + player.relationships[p];
 
 
