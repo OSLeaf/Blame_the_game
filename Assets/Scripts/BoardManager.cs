@@ -116,6 +116,7 @@ public class BoardManager : MonoBehaviour
             playerPieces[i] = Instantiate(playerPiece, startSquare.transform.position + possibleOffsets[i], Quaternion.identity, pieceParent).transform;
             playerPieces[i].GetComponent<MeshRenderer>().material.color = playerColors[i];
             playerValues[i] = GameObject.FindObjectOfType<PlayerScript>();
+            playerValues[i].name = "Player " + (i + 1);  
         }
 
     }
