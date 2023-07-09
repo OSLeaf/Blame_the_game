@@ -9,7 +9,7 @@ public class CRobbery : MonoBehaviour, ChanceBase
     public string description {get {return _description;}}
     [SerializeField] private Texture2D _texture;
     public Texture2D texture {get {return _texture;}}
-    private BoardManager bm;public void start() {bm = FindObjectOfType<BoardManager>();}
+    private BoardManager bm;void start() {bm = FindObjectOfType<BoardManager>();}
     public void Affect() {
         Debug.Log("Robbing");
         for (int i = 0; i < 4; i++) {
