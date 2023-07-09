@@ -337,9 +337,15 @@ public class BoardManager : MonoBehaviour
     {
         line.enabled = false;
         diceAnim.SetTrigger("RollDone");
+        if (CurrentPlayer().diceBlessed) {count = ((int)count)*2;}  // MORE LIKE CURSED
+        if (CurrentPlayer().diceStopped) {
+            if (count >= 4) {
+                CurrentPlayer().diceStopped = false;
+            } else {
+                count = 0;
+            }
+        }
         CurrentPlayer().diceBlessed = false;
-        if (CurrentPlayer().diceBlessed) {count *= 2;}  // MORE LIKE CURSED
-        if (CurrentPlayer().diceStopped) {count = count >= 4 ? count : 0;}
         StartCoroutine(MoveCoroutine(count));
     }
     IEnumerator MoveCoroutine(int amount)
