@@ -108,7 +108,7 @@ public class ChanceCardManager : MonoBehaviour
         Quaternion sourceRotation = Quaternion.Euler(0,0,180);
         Vector3 source = deckBase.transform.position;
         ChanceCard3D card = Instantiate(chanceCard3DAsset, source, sourceRotation);
-        Vector3 target = Camera.main.transform.position + Camera.main.transform.forward*3f;
+        Vector3 target = Camera.main.transform.position + Camera.main.transform.forward*4f;
         Quaternion targetRotation = Camera.main.transform.rotation * Quaternion.Euler(-90,180,180);
         card.SetTexture(cardtype.texture);
         float timer = 0;
