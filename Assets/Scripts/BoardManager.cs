@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class BoardManager : MonoBehaviour
 {
@@ -128,7 +129,11 @@ public class BoardManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            if (Application.platform == RuntimePlatform.WebGLPlayer) {
+                SceneManager.LoadScene("Titlescreen");
+            } else {
+                Application.Quit();
+            }
         }
     }
 
