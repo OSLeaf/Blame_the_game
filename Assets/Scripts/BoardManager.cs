@@ -194,6 +194,11 @@ public class BoardManager : MonoBehaviour
                     Debug.Log("Communism achieved!");
                     currentObjective = "m";
                     objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: Get MONKE!\nEvery player must be on the Monkey!";
+                    foreach (var sqr in FindObjectsOfType<SquareScript>()) {
+                        if (sqr.name == "MonkeSwitch") {
+                            sqr.connections.Reverse(); //Enablaa monke
+                        }
+                    }
                 }
                 break;
             case "h":
