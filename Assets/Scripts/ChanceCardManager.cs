@@ -94,16 +94,6 @@ public class ChanceCardManager : MonoBehaviour
         hoverDisabler.SetActive(isPicking);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown("space"))
-        {
-            Debug.Log("space key was pressed");
-            DrawCard();
-        }
-    }
-
     IEnumerator DrawCoroutine(ChanceBase cardtype) {
         Quaternion sourceRotation = Quaternion.Euler(0,0,180);
         Vector3 source = deckBase.transform.position;
