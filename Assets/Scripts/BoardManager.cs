@@ -238,6 +238,7 @@ public class BoardManager : MonoBehaviour
                 if (win)
                 {
                     Debug.Log("WIN");
+                    FindObjectOfType<EndScreenManager>().WinGame();
                 }
                 break;
             default:

@@ -52,7 +52,10 @@ public class PlayerScript : MonoBehaviour
         set
         {
             _money = value;
-            if (_money < 0) { money = 0; }
+            if (_money < 0) {
+                money = 0;
+                FindObjectOfType<EndScreenManager>().LoseGame();
+            }
         }
     }
 
