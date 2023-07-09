@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class EndScreenManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    [SerializeField] private GameObject hoverdisabler;
+    [SerializeField] private GameObject winScreen;
+    [SerializeField] private GameObject lossScreen;
+    
+    public void LoseGame() {
+        hoverdisabler.SetActive(true);
+        lossScreen.SetActive(true);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void WinGame() {
+        hoverdisabler.SetActive(true);
+        winScreen.SetActive(true);
     }
 }

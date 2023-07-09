@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public GameObject rentAnimation;
+    public bool diceBlessed = false;
+    public bool diceStopped = false;
     private float _happiness = 50;
     public float happiness
     {
@@ -68,7 +70,6 @@ public class PlayerScript : MonoBehaviour
             for (i = 1; i <= 3; i++)
             {
                 string id = "" + i;
-                Debug.Log("är");
                 if (_relationships[id] > 100) { _relationships[id] = 100; }
                 if (_relationships[id] < 0) { _relationships[id] = 0; }
             }

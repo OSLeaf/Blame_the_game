@@ -311,6 +311,8 @@ public class BoardManager : MonoBehaviour
     }
     public void DiceHower(int count)
     {
+        if (CurrentPlayer().diceBlessed) {count *= 2;}  // MORE LIKE CURSED
+        if (CurrentPlayer().diceStopped) {count = count >= 4 ? count : 0;}
         line.startColor = playerColors[activePlayer];
         line.endColor = line.startColor;
         line.enabled = true;
@@ -330,6 +332,9 @@ public class BoardManager : MonoBehaviour
     {
         line.enabled = false;
         diceAnim.SetTrigger("RollDone");
+        CurrentPlayer().diceBlessed = false;
+        if (CurrentPlayer().diceBlessed) {count *= 2;}  // MORE LIKE CURSED
+        if (CurrentPlayer().diceStopped) {count = count >= 4 ? count : 0;}
         StartCoroutine(MoveCoroutine(count));
     }
     IEnumerator MoveCoroutine(int amount)

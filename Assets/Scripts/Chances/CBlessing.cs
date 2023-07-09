@@ -11,6 +11,7 @@ public class CBlessing : MonoBehaviour, ChanceBase
     public Texture2D texture {get {return _texture;}}
     private BoardManager bm;public void Start() {bm = FindObjectOfType<BoardManager>();}
     public void Affect() {
-        Debug.Log("Hello2");
+        bm.CurrentPlayer().diceBlessed = true;
+        bm.CurrentPlayer().happiness += 20;
     }
 }

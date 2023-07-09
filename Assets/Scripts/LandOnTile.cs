@@ -38,6 +38,10 @@ public class LandOnTile : MonoBehaviour
             // I feel luck
             chanceManager.DrawCard();
         }
+        else if (tileBehavior == "stop")
+        {
+            player.diceStopped = true;
+        }
         SquareScript sq = transform.GetComponent<SquareScript>();
         if (string.IsNullOrEmpty(sq.owner))
         {
