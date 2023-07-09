@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -128,11 +129,18 @@ public class BoardManager : MonoBehaviour
         {
             checkIfObjective();
         }
-        try{
+           
+        try
+        {
             UpdatePlayerStats();
         }
-        catch {}
-           
+        catch (System.Exception e) 
+        {
+            
+        }   
+
+
+
         activePlayer++;
         if (activePlayer > 3)
         {
@@ -170,6 +178,8 @@ public class BoardManager : MonoBehaviour
                 if (0 <= moneys && moneys <= 200)
                 {
                     Debug.Log("Communism achieved!");
+                    currentObjective = "m";
+                    objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: Get MONKE!\nEvery player must be on the Monkey!";
                 }
                 break;
             case "h":
@@ -178,7 +188,7 @@ public class BoardManager : MonoBehaviour
                 {
                     foreach (var (key, value) in player.relationships)
                     {
-                        if (value > 80f)
+                        if (value > 40f)
                         {
                             hate = false;
                             break;
@@ -186,11 +196,15 @@ public class BoardManager : MonoBehaviour
                     }
                 }
                 if (hate)
-                    Debug.Log("Hate! All the HATE!");
+                {
+                    currentObjective = "c";
+                    objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: Achieve Communism\nEvery player must have the same amount of money";
+                }
                 break;
             default:
                 break;
         }
+
     }
     private void UpdatePlayerStats()
     {
@@ -254,7 +268,6 @@ public class BoardManager : MonoBehaviour
     private void startObjective()
     {
         objectives = true;
-        //objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: Achieve Communism\nEvery player must have the same amount of money";
         objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: We do not like each other\nMake all players hate each other";
         currentObjective = "h";
     }

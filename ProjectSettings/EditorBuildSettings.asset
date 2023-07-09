@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/VanhaSampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Titlescreen.unity
+    guid: 9f29a5712a3de9c43ac41820428cc3cc
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 65077e3e194eb364a832254a82f8ba4d
   m_configObjects: {}
