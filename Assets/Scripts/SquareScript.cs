@@ -77,6 +77,8 @@ public class SquareScript : MonoBehaviour
         i.rectTransform.sizeDelta = new Vector2(80, 160);
 
         var pos =  Camera.main.WorldToScreenPoint(transform.position);
+        var screenMiddle = new Vector2(Screen.width, Screen.height)*0.5f;                           // Push the square box
+        pos = new Vector3(pos.x*0.95f+0.05f*screenMiddle.x, pos.y*0.9f+0.1f*screenMiddle.y, pos.z); // toward the middle of the screen
         panelBase.transform.SetParent(canvasBase.transform, true);
         panelBase.transform.position = new Vector3(pos.x, pos.y, pos.z);
         panelBase.AddComponent<UIScript>();
