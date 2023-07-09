@@ -137,6 +137,11 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+
     public void NextTurn()
     {
         if (objectives)
