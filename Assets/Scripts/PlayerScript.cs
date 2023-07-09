@@ -63,7 +63,17 @@ public class PlayerScript : MonoBehaviour
     };
     public Dictionary<string, float> relationships
     {
-        get { return _relationships; }
+        get {
+            int i;
+            for (i = 1; i <= 3; i++)
+            {
+                string id = "" + i;
+                if (relationships[id] > 100) { _relationships[id] = 100; }
+                if (relationships[id] < 0) { _relationships[id] = 0; }
+            }
+
+
+            return _relationships; }
         set
         {
             _relationships = value;
