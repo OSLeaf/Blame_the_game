@@ -67,7 +67,7 @@ public class pelaajaInfo : MonoBehaviour
 
             GameObject tekstiObjekti = new GameObject();
             TextMeshProUGUI t = tekstiObjekti.AddComponent<TextMeshProUGUI>();
-            t.SetText(manager.playerValues[(playerId + 1) % 4].name);
+            t.SetText(manager.playerValues[(playerId + i) % 4].name);
             t.fontSize = 12f;
             t.color = UnityEngine.Color.white;
             tekstiObjekti.transform.SetParent(gameObject.transform);
