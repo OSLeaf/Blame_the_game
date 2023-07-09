@@ -8,6 +8,8 @@ using System.Linq;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
 using TMPro;
+using System.Drawing;
+//using Image = UnityEngine.UI.Image;
 
 public class pelaajaInfo : MonoBehaviour
 {
@@ -49,13 +51,25 @@ public class pelaajaInfo : MonoBehaviour
             TextMeshProUGUI t = tekstiObjekti.AddComponent<TextMeshProUGUI>();
             t.SetText(manager.nthPlayer(i).name);
             t.fontSize = 12f;
-            t.color = Color.white;
-            tekstiObjekti.transform.parent = gameObject.transform;
-            tekstiObjekti.transform.position = new Vector3(250, 100, 0);
+            t.color = UnityEngine.Color.white;
+            tekstiObjekti.transform.SetParent(gameObject.transform);
+            //tekstiObjekti.transform.position = new Vector3(250, 100, 0);
             tekstiObjekti.name = "TemporaryText";
-            tekstiObjekti.transform.localPosition = new Vector3(0, 0, 0);
+            //float right =  
+            tekstiObjekti.transform.localPosition = new Vector3(60, -76 + 28*i, 0);
+            Debug.Log(" " + tekstiObjekti.transform.localPosition.x + " , " + tekstiObjekti.transform.localPosition.y);
+            
+            
+            //GameObject kuvaObjekti = new GameObject();
+            //UnityEngine.UI.Image img = kuvaObjekti.AddComponent<UnityEngine.UI.Image>();
+            //img.sprite = Resources.Load<Sprite>("heart.png");
+            //kuvaObjekti.name = "GeneratedHeart";
+            //kuvaObjekti.transform.SetParent(gameObject.transform);
+            //float varikerroin = player.relationships["" + i] / 100;
+            //img.color = new UnityEngine.Color(varikerroin, varikerroin / 4, varikerroin / 4);
+            //tekstiObjekti.transform.localPosition = new Vector3(65, -70 + 25 * i, 0);
+            
 
-           
         }
 
 
@@ -86,11 +100,31 @@ public class pelaajaInfo : MonoBehaviour
         foreach (string p in player.relationships.Keys)
         {
             UnityEngine.UI.Image sydan = sydamet.ElementAt(i);
-            Debug.Log(sydamet);
-            sydan.color = new Color(player.relationships[p] / 100, 0, 0);
-            Debug.Log("color löydetty");
+            //Debug.Log(sydamet);
+            float varikerroin = player.relationships[p] / 100;
+            //img.color = new UnityEngine.Color(varikerroin, varikerroin / 4, varikerroin / 4)
+            sydan.color = new UnityEngine.Color(varikerroin, varikerroin / 3, varikerroin / 3);
+            //Debug.Log("color löydetty");
             //sydan.GetComponentInChildren<Text>().text = "" + player.relationships[p];
+
+
+            GameObject tekstiObjekti = new GameObject();
+            TextMeshProUGUI t = tekstiObjekti.AddComponent<TextMeshProUGUI>();
+            t.SetText("" + player.relationships[p]);
+            t.fontSize = 12f;
+            t.color = UnityEngine.Color.white;
+            tekstiObjekti.transform.SetParent(sydan.transform);
+            //tekstiObjekti.transform.position = new Vector3(250, 100, 0);
+            tekstiObjekti.name = "LovePros";
+            //float right =  
+            tekstiObjekti.transform.localPosition = new Vector3(44,-7, 0);
+           // Debug.Log(" " + tekstiObjekti.transform.localPosition.x + " , " + tekstiObjekti.transform.localPosition.y);
+
+
+
+
             i += 1;
+
         }
 
 
@@ -105,7 +139,7 @@ public class pelaajaInfo : MonoBehaviour
         muokattava = texts.First(t => t.name == "Name");
         muokattava.text = player.name;
         muokattava = texts.First(t => t.name == "Money");
-        muokattava.text = "" + player.money;
+        muokattava.text = muokattava.text + "    " + player.money;
 
         //Debug.Log(texts);
 
@@ -131,7 +165,7 @@ public class pelaajaInfo : MonoBehaviour
         muokattava.text = "Money";
         gameObject.SetActive(false);
 
-        foreach (TextMeshProUGUI t in texts.Where(a => a.name == "TemporaryText"))
+        foreach (TextMeshProUGUI t in texts.Where(a => a.name == "TemporaryText" || a.name == "LovePros") )
         {
            Destroy(t.gameObject);
         }
