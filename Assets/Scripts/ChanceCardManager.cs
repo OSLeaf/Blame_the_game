@@ -10,6 +10,7 @@ public class ChanceCardManager : MonoBehaviour
     [SerializeField] private ChanceCard chanceCardUIAsset;
     [SerializeField] private ChanceCard3D chanceCard3DAsset;
     [SerializeField] private GameObject deckBase;
+    [SerializeField] private GameObject hoverDisabler;
     private bool isPicking = false;
     private GameObject confirmButton;
     private const float cardDrawDuration = 0.5f;
@@ -19,6 +20,7 @@ public class ChanceCardManager : MonoBehaviour
     {
         confirmButton = transform.GetChild(0).gameObject;
         confirmButton.SetActive(isPicking);
+        hoverDisabler.SetActive(isPicking);
         foreach (var c in GetComponents<ChanceBase>()) {
             deck.Push(c);
         }
@@ -55,6 +57,7 @@ public class ChanceCardManager : MonoBehaviour
         if (isPicking) {return;}
         isPicking = true;
         confirmButton.SetActive(isPicking);
+        hoverDisabler.SetActive(isPicking);
         foreach (var c in GetComponents<ChanceBase>()) {
             var pos = new Vector3(Random.Range(-400,400),Random.Range(-300,300),0);
             var card = Instantiate(chanceCardUIAsset, pos, Quaternion.identity);
@@ -88,6 +91,7 @@ public class ChanceCardManager : MonoBehaviour
         UpdateDeckVisual();
         isPicking = false;
         confirmButton.SetActive(isPicking);
+        hoverDisabler.SetActive(isPicking);
     }
 
     // Update is called once per frame
@@ -104,7 +108,7 @@ public class ChanceCardManager : MonoBehaviour
         Quaternion sourceRotation = Quaternion.Euler(0,0,180);
         Vector3 source = deckBase.transform.position;
         ChanceCard3D card = Instantiate(chanceCard3DAsset, source, sourceRotation);
-        Vector3 target = Camera.main.transform.position + Camera.main.transform.forward*6f;
+        Vector3 target = Camera.main.transform.position + Camera.main.transform.forward*3f;
         Quaternion targetRotation = Camera.main.transform.rotation * Quaternion.Euler(-90,180,180);
         card.SetTexture(cardtype.texture);
         float timer = 0;

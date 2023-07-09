@@ -42,6 +42,8 @@ public class LandOnTile : MonoBehaviour
         {
             if (player.WantToBuy(sq.cost))
             {
+                player.money -= sq.cost;
+                player.happiness += 5;
                 sq.owner = boardManager.activePlayer.ToString();
             }
         }

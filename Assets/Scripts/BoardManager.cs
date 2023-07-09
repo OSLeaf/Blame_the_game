@@ -166,8 +166,8 @@ public class BoardManager : MonoBehaviour
             float timer = 0;
             while(timer < 1)
             {
-                playerPieces[activePlayer].transform.position = Vector3.Lerp(startPosition, targetPosition, timer) + Vector3.up * Mathf.Sin(timer * Mathf.PI);
-                timer += Time.deltaTime * 10;
+                playerPieces[activePlayer].transform.position = Vector3.Lerp(startPosition, targetPosition, timer) + Vector3.up * Mathf.Sin(timer * Mathf.PI)*3f;
+                timer += Time.deltaTime * 2;
                 yield return null;
             }
             playerPieces[activePlayer].transform.position = targetPosition;
