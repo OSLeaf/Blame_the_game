@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using Unity.VisualScripting;
 using TMPro;
 using System.Drawing;
+using System.Net.Security;
 //using Image = UnityEngine.UI.Image;
 
 public class pelaajaInfo : MonoBehaviour
@@ -24,7 +25,7 @@ public class pelaajaInfo : MonoBehaviour
         gameObject.SetActive(false);
 
         manager = gameObject.transform.parent.gameObject.GetComponentInChildren<BoardManager>();
-        
+
         //line = GetComponent<LineRenderer>();
         //hearts = new Image[4];
         //playerValues = new PlayerScript[4];
@@ -42,24 +43,42 @@ public class pelaajaInfo : MonoBehaviour
     {
         gameObject.SetActive(true);
 
+        int playerId = -1;
+
+
+        int j;
+        for (j = 0; j < 4; j++)
+        {
+            if (manager.playerValues[j] == player)
+            {
+                playerId = j;
+            }
+        }
+
+
+        gameObject.GetComponent<UnityEngine.UI.Image>().color = new UnityEngine.Color(manager.playerColors[playerId].r, manager.playerColors[playerId].g, manager.playerColors[playerId].b, 0.6f);
+        //       gameObject.GetComponent<UnityEngine.UI.Image>().color = ;
+
+
+
         int i;
         for (i = 1; i <= player.relationships.Count; i++)
         {
             //Instantiate()
-            
+
             GameObject tekstiObjekti = new GameObject();
             TextMeshProUGUI t = tekstiObjekti.AddComponent<TextMeshProUGUI>();
-            t.SetText(manager.nthPlayer(i).name);
+            t.SetText(manager.playerValues[(playerId + 1) % 4].name);
             t.fontSize = 12f;
             t.color = UnityEngine.Color.white;
             tekstiObjekti.transform.SetParent(gameObject.transform);
             //tekstiObjekti.transform.position = new Vector3(250, 100, 0);
             tekstiObjekti.name = "TemporaryText";
             //float right =  
-            tekstiObjekti.transform.localPosition = new Vector3(60, -76 + 28*i, 0);
+            tekstiObjekti.transform.localPosition = new Vector3(60, -76 + 28 * i, 0);
             Debug.Log(" " + tekstiObjekti.transform.localPosition.x + " , " + tekstiObjekti.transform.localPosition.y);
-            
-            
+
+
             //GameObject kuvaObjekti = new GameObject();
             //UnityEngine.UI.Image img = kuvaObjekti.AddComponent<UnityEngine.UI.Image>();
             //img.sprite = Resources.Load<Sprite>("heart.png");
@@ -68,7 +87,7 @@ public class pelaajaInfo : MonoBehaviour
             //float varikerroin = player.relationships["" + i] / 100;
             //img.color = new UnityEngine.Color(varikerroin, varikerroin / 4, varikerroin / 4);
             //tekstiObjekti.transform.localPosition = new Vector3(65, -70 + 25 * i, 0);
-            
+
 
         }
 
@@ -117,8 +136,8 @@ public class pelaajaInfo : MonoBehaviour
             //tekstiObjekti.transform.position = new Vector3(250, 100, 0);
             tekstiObjekti.name = "LovePros";
             //float right =  
-            tekstiObjekti.transform.localPosition = new Vector3(44,-7, 0);
-           // Debug.Log(" " + tekstiObjekti.transform.localPosition.x + " , " + tekstiObjekti.transform.localPosition.y);
+            tekstiObjekti.transform.localPosition = new Vector3(43, -7, 0);
+            // Debug.Log(" " + tekstiObjekti.transform.localPosition.x + " , " + tekstiObjekti.transform.localPosition.y);
 
 
 
@@ -148,9 +167,9 @@ public class pelaajaInfo : MonoBehaviour
 
     }
 
-    public void Close() 
+    public void Close()
     {
-        
+
         var texts = new HashSet<TextMeshProUGUI>(GetComponentsInChildren<TextMeshProUGUI>(true));
         TextMeshProUGUI muokattava = texts.First(t => t.name == "Happiness");
         muokattava.text = "Happiness";
@@ -165,9 +184,9 @@ public class pelaajaInfo : MonoBehaviour
         muokattava.text = "Money";
         gameObject.SetActive(false);
 
-        foreach (TextMeshProUGUI t in texts.Where(a => a.name == "TemporaryText" || a.name == "LovePros") )
+        foreach (TextMeshProUGUI t in texts.Where(a => a.name == "TemporaryText" || a.name == "LovePros"))
         {
-           Destroy(t.gameObject);
+            Destroy(t.gameObject);
         }
     }
 
