@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    public GameObject rentAnimation;
     public float happiness = 50;
     public float vitutus = 25;
     public float luck = 35;
@@ -66,6 +67,7 @@ public class PlayerScript : MonoBehaviour
     public void payRent(int rent, PlayerScript owner, int nth)
     {
         relationships[nth.ToString()] -= (float)rent/(float)money * vitutus*0.25f / (happiness*0.5f) * 100f;
+        Instantiate(rentAnimation, new Vector3(1,1,1), Quaternion.identity);
         money -= rent; owner.money += rent;
     }
 

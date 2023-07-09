@@ -135,13 +135,16 @@ MonoBehaviour:
   - {fileID: 4368411960699611238}
   connections: []
   bridgeAsset: {fileID: 4701754042770978879, guid: b3be8d1aa1899f548ac79e0b96d1a869, type: 3}
-  picture: {fileID: 0}
+  picture: {fileID: 2800000, guid: 6076739ee7a529e87aac59497a082798, type: 3}
+  cost: 0
+  rent: 0
   text: {fileID: 0}
   canvasBase: {fileID: 0}
   panelBase: {fileID: 0}
   startSelfDestruct: 1
   textInputField: {fileID: 3940826553513939374, guid: d2cda9bc16e8682a28193ec956a0bd2f, type: 3}
   addButton: {fileID: 6816252587505112909, guid: 43193d28403961130995900eeb53e88e, type: 3}
+  owner: 
 --- !u!114 &4368411960699611238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardManager: {fileID: 0}
+  chanceManager: {fileID: 0}
 --- !u!65 &4797370241938759245
 BoxCollider:
   m_ObjectHideFlags: 0

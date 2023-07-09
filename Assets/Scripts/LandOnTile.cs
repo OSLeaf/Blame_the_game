@@ -35,6 +35,7 @@ public class LandOnTile : MonoBehaviour
         }
         else if (tileBehavior == "chance")
         {
+            // I feel luck
             chanceManager.DrawCard();
         }
         SquareScript sq = transform.GetComponent<SquareScript>();
@@ -42,7 +43,14 @@ public class LandOnTile : MonoBehaviour
         {
             if (player.WantToBuy(sq.cost))
             {
+                // Yoink
+                player.money -= sq.cost;
+                player.happiness += 5;
                 sq.owner = boardManager.activePlayer.ToString();
+            }
+            else
+            {
+                // Too expensive, fuck this
             }
         }
         else
