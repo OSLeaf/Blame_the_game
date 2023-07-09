@@ -1,21 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
     public GameObject rentAnimation;
     private float _happiness = 50;
-    public float happiness  
-        {
+    public float happiness
+    {
         get { return _happiness; }
-        set { 
+        set {
             _happiness = value;
-            if (_happiness < 0) { _happiness = 0; } 
+            if (_happiness < 0) { _happiness = 0; }
             if (_happiness > 100) { _happiness = 100; }
         }
-        }
+    }
 
 
     private float _vitutus = 35;
@@ -31,13 +30,54 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    public float luck = 35;
-    public int money = 2000;
-    public Dictionary<string, float> relationships = new Dictionary<string, float>(){
+    private float _luck = 35;
+    public float luck
+    {
+        get { return _luck; }
+        set
+        {
+            _luck = value;
+            if (_luck < 0) { _luck = 0; }
+            if (_luck > 100) { _luck = 100; }
+        }
+    }
+
+
+    private int _money = 2000;
+    public int money
+    {
+        get { return _money; }
+        set
+        {
+            _money = value;
+            if (_money < 0) { money = 0; }
+        }
+    }
+
+
+
+    private Dictionary<string, float> _relationships = new Dictionary<string, float>(){
         {"1", 50},
         {"2", 50},
         {"3", 50}
     };
+    public Dictionary<string, float> relationships
+    {
+        get { return _relationships; }
+        set
+        {
+            _relationships = value;
+            int i;
+            for (i = 1; i <= 3; i++ )
+            {
+                string id = "" + i;
+                if (relationships[id] > 100) { _relationships[id] = 100; }
+                if (relationships[id] < 0 ) { _relationships[id] = 0; }
+            }
+        }
+     }
+
+
     // Start is called before the first frame update
     void Start()
     {
