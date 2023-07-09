@@ -7,7 +7,7 @@ public class LandOnTile : MonoBehaviour
 {
     public BoardManager boardManager;
     public ChanceCardManager chanceManager;
-    string tileBehavior = "happiness";
+    [SerializeField] string tileBehavior = "happiness";
     int tileChange = 1;
     // Start is called before the first frame update
     void Start()
