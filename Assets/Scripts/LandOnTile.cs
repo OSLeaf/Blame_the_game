@@ -56,20 +56,23 @@ public class LandOnTile : MonoBehaviour
         else
         {
             int nth = ((Int32.Parse(sq.owner) - boardManager.activePlayer) + 4) % 4;
-            PlayerScript owner;
-            switch(nth)
+            if (nth != 0)
             {
-                case 1:
-                    owner = boardManager.NextPlayer();
-                    break;
-                case 2:
-                    owner = boardManager.OppositePlayer();
-                    break;
-                default:
-                    owner = boardManager.PreviousPlayer();
-                    break;
+                PlayerScript owner;
+                switch(nth)
+                {
+                    case 1:
+                        owner = boardManager.NextPlayer();
+                        break;
+                    case 2:
+                        owner = boardManager.OppositePlayer();
+                        break;
+                    default:
+                        owner = boardManager.PreviousPlayer();
+                        break;
+                }
+                player.payRent(sq.rent, owner, nth, sq.transform.position);
             }
-            player.payRent(sq.rent, owner, nth, sq.transform.position);
         }
         boardManager.NextTurn();
     }

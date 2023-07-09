@@ -21,6 +21,8 @@ public class BoardManager : MonoBehaviour
 
     public GameObject objectiveText;
     public GameObject currentTurnText;
+    public bool objectives = true;
+    public string currentObjective = "";
     int currentTurn = 1;
     SquareScript GetNSquaresForwardPrimary(SquareScript from, int N) {
         // stay in the last square
@@ -119,6 +121,10 @@ public class BoardManager : MonoBehaviour
 
     public void NextTurn()
     {
+        if (objectives)
+        {
+            checkIfObjective();
+        }
         activePlayer++;
         if (activePlayer > 3)
         {
@@ -133,9 +139,57 @@ public class BoardManager : MonoBehaviour
         diceAnim.SetTrigger("DiceRoll");
     }
 
+    public void checkIfObjective()
+    {
+        switch(currentObjective)
+        {
+            case "c":
+                int smallest = -1;
+                int biggest = -1;
+                foreach (PlayerScript player in playerValues)
+                {
+                    int money = player.money;
+                    if (money < smallest || smallest == -1)
+                    {
+                        smallest = money;
+                    }
+                    if (money > biggest || biggest == -1)
+                    {
+                        biggest = money;
+                    }
+                }
+                int moneys = biggest - smallest;
+                if (0 <= moneys && moneys <= 200)
+                {
+                    Debug.Log("Communism achieved!");
+                }
+                break;
+            case "h":
+                bool hate = true;
+                foreach (PlayerScript player in playerValues)
+                {
+                    foreach (var (key, value) in player.relationships)
+                    {
+                        if (value > 20f)
+                        {
+                            hate = false;
+                            break;
+                        }
+                    }
+                }
+                if (hate)
+                    Debug.Log("Hate! All the HATE!");
+                break;
+            default:
+                break;
+        }
+    }
     private void startObjective()
     {
-        objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: Achieve Communism\nEvery player must have the same amount of money";
+        objectives = true;
+        //objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: Achieve Communism\nEvery player must have the same amount of money";
+        objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: We do not like each other\nMake all players hate each other";
+        currentObjective = "h";
     }
     public void DiceHower(int count)
     {
