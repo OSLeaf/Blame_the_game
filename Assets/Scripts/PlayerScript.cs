@@ -68,12 +68,14 @@ public class PlayerScript : MonoBehaviour
             for (i = 1; i <= 3; i++)
             {
                 string id = "" + i;
-                if (relationships[id] > 100) { _relationships[id] = 100; }
-                if (relationships[id] < 0) { _relationships[id] = 0; }
+                Debug.Log("är");
+                if (_relationships[id] > 100) { _relationships[id] = 100; }
+                if (_relationships[id] < 0) { _relationships[id] = 0; }
             }
 
 
-            return _relationships; }
+            return _relationships; 
+        }
         set
         {
             _relationships = value;
