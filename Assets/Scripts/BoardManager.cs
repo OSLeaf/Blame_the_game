@@ -121,6 +121,14 @@ public class BoardManager : MonoBehaviour
 
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     public void NextTurn()
     {
         try
@@ -271,12 +279,5 @@ public class BoardManager : MonoBehaviour
         }
 
         playerPositions[activePlayer].Landed();
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class Titlemanager : MonoBehaviour
+public class RentAnimation : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -17,8 +16,7 @@ public class Titlemanager : MonoBehaviour
         
     }
 
-    public void play()
-    {
-        SceneManager.LoadScene("SampleScene");
+    public void KillSelf() {
+        Destroy(gameObject);
     }
 }
