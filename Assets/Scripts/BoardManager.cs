@@ -122,8 +122,17 @@ public class BoardManager : MonoBehaviour
 
     public void NextTurn()
     {
-        UpdatePlayerStats();
-           
+        try
+        {
+            UpdatePlayerStats();
+        }
+        catch (System.Exception e) 
+        {
+            
+        }   
+
+
+
         activePlayer++;
         if (activePlayer > 3)
         {
