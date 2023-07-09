@@ -131,7 +131,6 @@ public class pelaajaInfo : MonoBehaviour
             float varikerroin = player.relationships[p] / 100;
             //img.color = new UnityEngine.Color(varikerroin, varikerroin / 4, varikerroin / 4)
             sydan.color = new UnityEngine.Color(varikerroin, varikerroin / 3, varikerroin / 3);
-            //Debug.Log("color l�ydetty");
             //sydan.GetComponentInChildren<Text>().text = "" + player.relationships[p];
 
 
@@ -141,14 +140,12 @@ public class pelaajaInfo : MonoBehaviour
             t.fontSize = 12f;
             t.color = UnityEngine.Color.white;
             tekstiObjekti.transform.SetParent(sydan.transform);
+            tekstiObjekti.transform.localScale = Vector3.one;
             //tekstiObjekti.transform.position = new Vector3(250, 100, 0);
             tekstiObjekti.name = "LovePros";
             //float right =  
             tekstiObjekti.transform.localPosition = new Vector3(43, -7, 0);
             // Debug.Log(" " + tekstiObjekti.transform.localPosition.x + " , " + tekstiObjekti.transform.localPosition.y);
-
-
-
 
             i += 1;
 

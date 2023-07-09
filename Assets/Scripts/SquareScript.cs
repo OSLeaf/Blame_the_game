@@ -149,8 +149,8 @@ public class SquareScript : MonoBehaviour
         GameObject textInput = Instantiate(textInputField, panelBase.transform.position, Quaternion.identity);
         textInput.transform.SetParent(panelBase.transform, true);
 
-        GameObject changeButton = Instantiate(addButton, new Vector3(pos.x + 80,pos.y - 40, pos.y), Quaternion.identity);
-        GameObject cancelButton = Instantiate(addButton, new Vector3(pos.x - 80,pos.y - 40, pos.y), Quaternion.identity);
+        GameObject changeButton = Instantiate(addButton, new Vector3(pos.x + 80,pos.y - 40, 0), Quaternion.identity);
+        GameObject cancelButton = Instantiate(addButton, new Vector3(pos.x - 80,pos.y - 40, 0), Quaternion.identity);
         changeButton.GetComponent<Button>().onClick.AddListener(delegate {SubmitChangeEvent(behavior);});
         changeButton.transform.SetParent(panelBase.transform, true);
         cancelButton.GetComponent<Button>().onClick.AddListener(DestroyPopUp);
