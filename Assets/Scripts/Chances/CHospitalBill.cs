@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CGamble : MonoBehaviour, ChanceBase
+public class CHospitalBills : MonoBehaviour, ChanceBase
 {
     [SerializeField]
     private string _description;
@@ -11,6 +11,8 @@ public class CGamble : MonoBehaviour, ChanceBase
     public Texture2D texture {get {return _texture;}}
     private BoardManager bm;public void start() {bm = FindObjectOfType<BoardManager>();}
     public void Affect() {
-        Debug.Log("Hello3");
+        Debug.Log("Hospital!");
+        bm.CurrentPlayer().money -= 150;
+        bm.CurrentPlayer().happiness -= 10;
     }
 }
