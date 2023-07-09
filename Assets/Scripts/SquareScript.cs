@@ -12,6 +12,8 @@ public class SquareScript : MonoBehaviour
     [SerializeField] public List<SquareScript> connections; // The squares that can be continued to
     [SerializeField] private BridgeScript bridgeAsset;
     [SerializeField] private Texture2D picture;
+    [SerializeField] public int cost;
+    [SerializeField] public int rent;
     private Dictionary<SquareScript,BridgeScript> bridges = new Dictionary<SquareScript, BridgeScript>();
     // Start is called before the first frame update
     Color overColor = Color.yellow;
@@ -24,6 +26,7 @@ public class SquareScript : MonoBehaviour
     public bool startSelfDestruct = true;
     public GameObject textInputField;
     public GameObject addButton;
+    public string owner;
     public void Start()
     {
         DestroyAllBridges();

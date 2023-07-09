@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +36,32 @@ public class LandOnTile : MonoBehaviour
         else if (tileBehavior == "chance")
         {
             chanceManager.DrawCard();
+        }
+        SquareScript sq = transform.GetComponent<SquareScript>();
+        if (string.IsNullOrEmpty(sq.owner))
+        {
+            if (player.WantToBuy(sq.cost))
+            {
+                sq.owner = boardManager.activePlayer.ToString();
+            }
+        }
+        else
+        {
+            int nth = ((Int32.Parse(sq.owner) - boardManager.activePlayer) + 4) % 4;
+            PlayerScript owner;
+            switch(nth)
+            {
+                case 1:
+                    owner = boardManager.NextPlayer();
+                    break;
+                case 2:
+                    owner = boardManager.OppositePlayer();
+                    break;
+                default:
+                    owner = boardManager.PreviousPlayer();
+                    break;
+            }
+            player.payRent(sq.rent, owner, nth);
         }
         boardManager.NextTurn();
     }

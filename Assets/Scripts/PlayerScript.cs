@@ -37,11 +37,10 @@ public class PlayerScript : MonoBehaviour
 
     public void OnMouseEnter()
     {
-        Debug.Log("tunnen sinut");
+        Debug.Log("Mmmmmm, tunnen sinut, UwU");
         pelaajaInfo info = FindObjectOfType<pelaajaInfo>(true); //
-        Debug.Log("pelaajainfo löydetty");
-        info.LoadPlayer(this);
-       
+        Debug.Log("pelaajainfo lÃ¶ydetty");
+        info.LoadPlayer(this); 
     }
 
     public void OnMouseExit()
@@ -49,6 +48,25 @@ public class PlayerScript : MonoBehaviour
         pelaajaInfo info = FindObjectOfType<pelaajaInfo>(true); //
         info.Close();
         
+    }
+
+    public bool WantToBuy(int cost)
+    {
+        if (cost > money)
+        {
+            return false;
+        }
+        if ((float)cost/(float)money <= 0.2 || vitutus >= 70 || (vitutus < 30 && happiness >= 55) || luck >= 50)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void payRent(int rent, PlayerScript owner, int nth)
+    {
+        relationships[nth.ToString()] -= (float)rent/(float)money * vitutus*0.25f / (happiness*0.5f) * 100f;
+        money -= rent; owner.money += rent;
     }
 
 }
