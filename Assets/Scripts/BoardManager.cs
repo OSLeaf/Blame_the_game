@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BoardManager : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class BoardManager : MonoBehaviour
 
     private Vector3[] possibleOffsets = {Vector3.zero, new Vector3(0.5f,0,0.5f), new Vector3(0.5f,0,-0.5f), new Vector3(-0.5f, 0, 0.5f)};
 
+    public GameObject objectiveText;
+    public GameObject currentTurnText;
+    int currentTurn = 1;
     SquareScript GetNSquaresForwardPrimary(SquareScript from, int N) {
         // stay in the last square
         var current = from;
@@ -100,6 +104,8 @@ public class BoardManager : MonoBehaviour
         playerPositions = new SquareScript[4];
         playerPieces = new Transform[4];
         playerValues = new PlayerScript[4];
+        objectiveText.GetComponent<TextMeshProUGUI>().text = "No objective... Yet";
+        currentTurnText.GetComponent<TextMeshProUGUI>().text = "Current turn: 1";
 
         for (int i = 0; i < 4; i++)
         {
@@ -115,8 +121,21 @@ public class BoardManager : MonoBehaviour
     {
         activePlayer++;
         if (activePlayer > 3)
+        {
             activePlayer = 0;
+            currentTurn += 1;
+            currentTurnText.GetComponent<TextMeshProUGUI>().text = "Current turn: " + currentTurn.ToString();
+            if (currentTurn == 5)
+            {
+                startObjective();
+            }
+        }
         diceAnim.SetTrigger("DiceRoll");
+    }
+
+    private void startObjective()
+    {
+        objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: Achieve Communism\nEvery player must have the same amount of money";
     }
     public void DiceHower(int count)
     {
