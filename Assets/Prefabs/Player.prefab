@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f08e72a9f6300269fbb872160134034f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rentAnimation: {fileID: 6435119218516482390, guid: d45b117f0ba757daf8f09a9a70b4d5d6, type: 3}
   happiness: 50
   vitutus: 25
   luck: 35

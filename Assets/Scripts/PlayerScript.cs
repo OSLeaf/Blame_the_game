@@ -64,11 +64,11 @@ public class PlayerScript : MonoBehaviour
         return false;
     }
 
-    public void payRent(int rent, PlayerScript owner, int nth)
+    public void payRent(int rent, PlayerScript owner, int nth, Vector3 pos)
     {
         relationships[nth.ToString()] -= (float)rent/(float)money * vitutus*0.25f / (happiness*0.5f) * 100f;
-        Instantiate(rentAnimation, new Vector3(1,1,1), Quaternion.identity);
         money -= rent; owner.money += rent;
+        Instantiate(rentAnimation, pos, Quaternion.identity);
     }
 
 }

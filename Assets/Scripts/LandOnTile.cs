@@ -69,7 +69,7 @@ public class LandOnTile : MonoBehaviour
                     owner = boardManager.PreviousPlayer();
                     break;
             }
-            player.payRent(sq.rent, owner, nth);
+            player.payRent(sq.rent, owner, nth, sq.transform.position);
         }
         boardManager.NextTurn();
     }
