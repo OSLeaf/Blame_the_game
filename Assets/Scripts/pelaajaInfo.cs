@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.UIElements;
+using Unity.VisualScripting;
 using TMPro;
+using System.Drawing;
+using System.Net.Security;
 //using Image = UnityEngine.UI.Image;
 
 public class pelaajaInfo : MonoBehaviour
@@ -51,7 +56,7 @@ public class pelaajaInfo : MonoBehaviour
 
 
         gameObject.GetComponent<UnityEngine.UI.Image>().color = new UnityEngine.Color(manager.playerColors[playerId].r, manager.playerColors[playerId].g, manager.playerColors[playerId].b, 0.75f);
-        //       gameObject.GetComponent<UnityEngine.UI.Image>().color = ;
+        //       gameObject.GetComponent<UnityEngine.UI.Image>().color = ; 
 
 
 
