@@ -6,8 +6,31 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public GameObject rentAnimation;
-    public float happiness = 50;
-    public float vitutus = 25;
+    private float _happiness = 50;
+    public float happiness  
+        {
+        get { return _happiness; }
+        set { 
+            _happiness = value;
+            if (_happiness < 0) { _happiness = 0; } 
+            if (_happiness > 100) { _happiness = 100; }
+        }
+        }
+
+
+    private float _vitutus = 35;
+    public float vitutus
+    {
+        get { return _vitutus; }
+        set
+        {
+            _vitutus = value;
+            if (_vitutus < 0) { _vitutus = 0; }
+            if (_vitutus > 100) { _vitutus = 100; }
+        }
+    }
+
+
     public float luck = 35;
     public int money = 2000;
     public Dictionary<string, float> relationships = new Dictionary<string, float>(){
