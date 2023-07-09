@@ -101,17 +101,17 @@ public class ChanceCardManager : MonoBehaviour
     }
 
     IEnumerator DrawCoroutine(ChanceBase cardtype) {
-        ChanceCard3D card = Instantiate(chanceCard3DAsset, deckBase.transform.position, Quaternion.Euler(0,0,180));
-        Vector3 target = Camera.main.transform.position + Camera.main.transform.forward*6f;
-        // Vector3 target = Vector3.zero;
+        Quaternion sourceRotation = Quaternion.Euler(0,0,180);
         Vector3 source = deckBase.transform.position;
+        ChanceCard3D card = Instantiate(chanceCard3DAsset, source, sourceRotation);
+        Vector3 target = Camera.main.transform.position + Camera.main.transform.forward*6f;
+        Quaternion targetRotation = Camera.main.transform.rotation * Quaternion.Euler(-90,180,180);
         card.SetTexture(cardtype.texture);
         float timer = 0;
         while (timer < 1 + cardShowDuration/cardDrawDuration) {
             timer += Time.deltaTime / cardDrawDuration;
             card.transform.position = Vector3.Lerp(source, target, timer);
-            card.transform.localRotation = Quaternion.Euler(0,0,Mathf.Lerp(180, 0, timer));
-            Debug.Log("HH");
+            card.transform.localRotation = Quaternion.Slerp(sourceRotation, targetRotation, timer);
             yield return null;
         }
         Destroy(card.gameObject);

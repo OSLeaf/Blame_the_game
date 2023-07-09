@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CTest4 : MonoBehaviour, ChanceBase
+public class CBlessing : MonoBehaviour, ChanceBase
 {
     [SerializeField]
     private string _description;
@@ -10,6 +10,6 @@ public class CTest4 : MonoBehaviour, ChanceBase
     [SerializeField] private Texture2D _texture;
     public Texture2D texture {get {return _texture;}}
     public void Affect() {
-        Debug.Log("Hello5");
+        Debug.Log("Hello2");
     }
 }

@@ -31,7 +31,7 @@ public class SquareScript : MonoBehaviour
     {
         DestroyAllBridges();
         UpdateBridges();
-        // UpdatePicture();
+        UpdatePicture();
 
         if (Application.IsPlaying(gameObject))
         {
@@ -221,7 +221,7 @@ public class SquareScript : MonoBehaviour
     }
 
     private void UpdatePicture() {
-        if (picture == null) {return;}
+        if (picture == null || !Application.IsPlaying(gameObject)) {return;}
         for (int i = 0; i < transform.childCount; i++) {
             if (transform.GetChild(i).name == "PICTUREPLANE") {
                 transform.GetChild(i).GetComponent<MeshRenderer>().material.SetTexture("_MainTex", picture);
@@ -235,7 +235,4 @@ public class SquareScript : MonoBehaviour
         }
     }
 
-    public void OnValidate() {
-        UpdatePicture();
-    }
 }
