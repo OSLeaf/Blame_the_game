@@ -184,7 +184,7 @@ public class BoardManager : MonoBehaviour
                     }
                 }
                 int moneys = biggest - smallest;
-                if (0 <= moneys && moneys <= 200)
+                if (0 <= moneys && moneys <= 2000)
                 {
                     Debug.Log("Communism achieved!");
                     currentObjective = "m";
@@ -197,7 +197,7 @@ public class BoardManager : MonoBehaviour
                 {
                     foreach (var (key, value) in player.relationships)
                     {
-                        if (value > 40f)
+                        if (value > 100f)
                         {
                             hate = false;
                             break;
@@ -208,6 +208,21 @@ public class BoardManager : MonoBehaviour
                 {
                     currentObjective = "c";
                     objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: Achieve Communism\nEvery player must have the same amount of money";
+                }
+                break;
+            case "m":
+                bool win = true;
+                foreach (var position in playerPositions)
+                {
+                    if (position.transform.name != "Monke")
+                    {
+                        win = false;
+                        break;
+                    }
+                }
+                if (win)
+                {
+                    Debug.Log("WIN");
                 }
                 break;
             default:
