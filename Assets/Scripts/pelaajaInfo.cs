@@ -74,7 +74,7 @@ public class pelaajaInfo : MonoBehaviour
             //tekstiObjekti.transform.position = new Vector3(250, 100, 0);
             tekstiObjekti.name = "TemporaryText";
             //float right =  
-            tekstiObjekti.transform.localPosition = new Vector3(60, -76 + 28 * i, 0);
+            tekstiObjekti.transform.localPosition = new Vector3(60, 36 - 28 * i, 0);
             Debug.Log(" " + tekstiObjekti.transform.localPosition.x + " , " + tekstiObjekti.transform.localPosition.y);
 
 
@@ -117,7 +117,16 @@ public class pelaajaInfo : MonoBehaviour
         i = 0;
         foreach (string p in player.relationships.Keys)
         {
-            UnityEngine.UI.Image sydan = sydamet.ElementAt(i);
+            string wantedname = "Heart" + (i + 1) ;
+            UnityEngine.UI.Image sydan;
+            try
+            {
+                sydan = sydamet.First(s => s.name == wantedname);
+            }
+            catch
+            {
+                sydan = sydamet.ElementAt(i);
+            }
             //Debug.Log(sydamet);
             float varikerroin = player.relationships[p] / 100;
             //img.color = new UnityEngine.Color(varikerroin, varikerroin / 4, varikerroin / 4)
