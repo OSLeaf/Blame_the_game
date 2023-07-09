@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -5,6 +6,7 @@ using System.IO.Compression;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class BoardManager : MonoBehaviour
 {
@@ -24,6 +26,8 @@ public class BoardManager : MonoBehaviour
 
     public GameObject objectiveText;
     public GameObject currentTurnText;
+    public bool objectives = true;
+    public string currentObjective = "";
     int currentTurn = 1;
     SquareScript GetNSquaresForwardPrimary(SquareScript from, int N) {
         // stay in the last square
@@ -125,11 +129,20 @@ public class BoardManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            if (Application.platform == RuntimePlatform.WebGLPlayer) {
+                SceneManager.LoadScene("Titlescreen");
+            } else {
+                Application.Quit();
+            }
         }
     }
 
     public void NextTurn()
+    {
+        if (objectives)
+        {
+            checkIfObjective();
+        }
     {
         try
         {
@@ -139,7 +152,6 @@ public class BoardManager : MonoBehaviour
         {
             Debug.Log(e);
         }   
-
 
 
         activePlayer++;
@@ -155,7 +167,79 @@ public class BoardManager : MonoBehaviour
         }
         diceAnim.SetTrigger("DiceRoll");
     }
+    }
 
+    public void checkIfObjective()
+    {
+        switch(currentObjective)
+        {
+            case "c":
+                int smallest = -1;
+                int biggest = -1;
+                foreach (PlayerScript player in playerValues)
+                {
+                    int money = player.money;
+                    if (money < smallest || smallest == -1)
+                    {
+                        smallest = money;
+                    }
+                    if (money > biggest || biggest == -1)
+                    {
+                        biggest = money;
+                    }
+                }
+                int moneys = biggest - smallest;
+                if (0 <= moneys && moneys <= 2000)
+                {
+                    Debug.Log("Communism achieved!");
+                    currentObjective = "m";
+                    objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: Get MONKE!\nEvery player must be on the Monkey!";
+                    foreach (var sqr in FindObjectsOfType<SquareScript>()) {
+                        if (sqr.name == "MonkeSwitch") {
+                            sqr.connections.Reverse(); //Enablaa monke
+                        }
+                    }
+                }
+                break;
+            case "h":
+                bool hate = true;
+                foreach (PlayerScript player in playerValues)
+                {
+                    foreach (var (key, value) in player.relationships)
+                    {
+                        if (value > 100f)
+                        {
+                            hate = false;
+                            break;
+                        }
+                    }
+                }
+                if (hate)
+                {
+                    currentObjective = "c";
+                    objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: Achieve Communism\nEvery player must have the same amount of money";
+                }
+                break;
+            case "m":
+                bool win = true;
+                foreach (var position in playerPositions)
+                {
+                    if (position.transform.name != "Monke")
+                    {
+                        win = false;
+                        break;
+                    }
+                }
+                if (win)
+                {
+                    Debug.Log("WIN");
+                }
+                break;
+            default:
+                break;
+        }
+
+    }
     private void UpdatePlayerStats()
     {
         int i;
@@ -221,7 +305,9 @@ public class BoardManager : MonoBehaviour
 
     private void startObjective()
     {
-        objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: Achieve Communism\nEvery player must have the same amount of money";
+        objectives = true;
+        objectiveText.GetComponent<TextMeshProUGUI>().text = "Current objective: We do not like each other\nMake all players hate each other";
+        currentObjective = "h";
     }
     public void DiceHower(int count)
     {

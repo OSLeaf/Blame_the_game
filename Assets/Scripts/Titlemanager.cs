@@ -16,7 +16,11 @@ public class Titlemanager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            if (Application.platform == RuntimePlatform.WebGLPlayer) {
+                // Nothing
+            } else {
+                Application.Quit();
+            }
         }
     }
 
