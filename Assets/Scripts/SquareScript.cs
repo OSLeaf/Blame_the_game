@@ -11,6 +11,9 @@ public class SquareScript : MonoBehaviour
     [SerializeField] private List<MonoBehaviour> scriptsToRunWhenLanded;
     [SerializeField] public List<SquareScript> connections; // The squares that can be continued to
     [SerializeField] private BridgeScript bridgeAsset;
+    [SerializeField] private Texture2D picture;
+    [SerializeField] public int cost;
+    [SerializeField] public int rent;
     private Dictionary<SquareScript,BridgeScript> bridges = new Dictionary<SquareScript, BridgeScript>();
     // Start is called before the first frame update
     Color overColor = Color.yellow;
@@ -23,10 +26,12 @@ public class SquareScript : MonoBehaviour
     public bool startSelfDestruct = true;
     public GameObject textInputField;
     public GameObject addButton;
+    public string owner;
     public void Start()
     {
         DestroyAllBridges();
         UpdateBridges();
+        UpdatePicture();
 
         if (Application.IsPlaying(gameObject))
         {
@@ -76,27 +81,41 @@ public class SquareScript : MonoBehaviour
         panelBase.transform.position = new Vector3(pos.x, pos.y, pos.z);
         panelBase.AddComponent<UIScript>();
 
+        createButton("Happiness", 60);
+        createButton("Luck", 25);
+        createButton("Chance", -15, false);
+
+        squareManager.squareUIisActive = true;
+    }
+
+    private void createButton(string behavior, int yoffset, bool createpopup = true)
+    {
         GameObject buttonBase = new GameObject("Button");
         buttonBase.AddComponent<CanvasRenderer>();
         Image buttonImage = buttonBase.AddComponent<Image>();
         buttonImage.rectTransform.sizeDelta = new Vector2(70, 30);
         var buttPos = buttonImage.rectTransform.anchoredPosition3D;
-        buttonImage.rectTransform.anchoredPosition = new Vector2(buttPos.x, buttPos.y + 60);
+        buttonImage.rectTransform.anchoredPosition = new Vector2(buttPos.x, buttPos.y + yoffset);
         Button button = buttonBase.AddComponent<Button>();
-        // button.onClick.AddListener(delegate { transform.GetComponent<LandOnTile>().ChangeTileBehavior("Happiness", 10); } );
-        button.onClick.AddListener(delegate {ShowPopUp("Happiness");} );
+        if (createpopup)
+        {
+            button.onClick.AddListener(delegate {ShowPopUp(behavior);} );
+        }
+        else
+        {
+            button.onClick.AddListener(delegate {transform.GetComponent<LandOnTile>().ChangeTileBehavior(behavior);}); 
+        }
 
         buttonBase.transform.SetParent(panelBase.transform, false); 
 
         GameObject textComponent = new GameObject("Text");
         text = textComponent.AddComponent<TextMeshProUGUI>();
-        text.text = "Happiness";
+        text.text = behavior;
         text.fontSize = 10;
         text.color = Color.black;
         text.transform.position = new Vector3(text.transform.position.x + 75, text.transform.position.y - 17, text.transform.position.z);
 
         textComponent.transform.SetParent(buttonBase.transform, false);
-        squareManager.squareUIisActive = true;
     }
 
     private void ShowPopUp(string behavior)
@@ -142,7 +161,7 @@ public class SquareScript : MonoBehaviour
     void SubmitChangeEvent(string behavior)
     {
         int change = Int32.Parse(panelBase.GetComponentInChildren<TMP_InputField>().text);
-        transform.GetComponent<LandOnTile>().ChangeTileBehavior("Happiness", change);
+        transform.GetComponent<LandOnTile>().ChangeTileBehavior(behavior, change);
         DestroyPopUp();
     }
 
@@ -201,9 +220,19 @@ public class SquareScript : MonoBehaviour
         }
     }
 
+    private void UpdatePicture() {
+        if (picture == null || !Application.IsPlaying(gameObject)) {return;}
+        for (int i = 0; i < transform.childCount; i++) {
+            if (transform.GetChild(i).name == "PICTUREPLANE") {
+                transform.GetChild(i).GetComponent<MeshRenderer>().material.SetTexture("_MainTex", picture);
+            }
+        }
+    }
+
     public void Update() {
         if(!Application.IsPlaying(gameObject)) {
             UpdateBridges();
         }
     }
+
 }

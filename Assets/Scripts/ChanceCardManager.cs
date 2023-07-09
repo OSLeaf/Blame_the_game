@@ -12,6 +12,8 @@ public class ChanceCardManager : MonoBehaviour
     [SerializeField] private GameObject deckBase;
     private bool isPicking = false;
     private GameObject confirmButton;
+    private const float cardDrawDuration = 0.5f;
+    private const float cardShowDuration = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,11 +33,10 @@ public class ChanceCardManager : MonoBehaviour
         if (deck.Count > 0) {
             var drawn = deck.Pop();
             drawn.Affect();
+            UpdateDeckVisual();
+            StartCoroutine(DrawCoroutine(drawn));
         } else {
             Debug.Log("Tried to draw from empty deck.");
-        }
-        UpdateDeckVisual();
-        if (deck.Count == 0) {
             TopUpDeck();
         }
     }
@@ -51,6 +52,7 @@ public class ChanceCardManager : MonoBehaviour
     }
 
     public void TopUpDeck() {
+        if (isPicking) {return;}
         isPicking = true;
         confirmButton.SetActive(isPicking);
         foreach (var c in GetComponents<ChanceBase>()) {
@@ -99,15 +101,22 @@ public class ChanceCardManager : MonoBehaviour
     }
 
     IEnumerator DrawCoroutine(ChanceBase cardtype) {
-        ChanceCard3D card = Instantiate(chanceCard3DAsset, deckBase.transform.position, Quaternion.Euler(0,0,180));
-        Vector3 target = Camera.current.transform.position + Camera.current.transform.forward*6f;
+        Quaternion sourceRotation = Quaternion.Euler(0,0,180);
         Vector3 source = deckBase.transform.position;
+        ChanceCard3D card = Instantiate(chanceCard3DAsset, source, sourceRotation);
+        Vector3 target = Camera.main.transform.position + Camera.main.transform.forward*6f;
+        Quaternion targetRotation = Camera.main.transform.rotation * Quaternion.Euler(-90,180,180);
         card.SetTexture(cardtype.texture);
         float timer = 0;
-        while (timer < 3) {
-            timer += Time.deltaTime * 1.0f;
+        while (timer < 1 + cardShowDuration/cardDrawDuration) {
+            timer += Time.deltaTime / cardDrawDuration;
             card.transform.position = Vector3.Lerp(source, target, timer);
+            card.transform.localRotation = Quaternion.Slerp(sourceRotation, targetRotation, timer);
+            yield return null;
         }
-        yield return null;
+        Destroy(card.gameObject);
+        if (deck.Count == 0) {
+            TopUpDeck();
+        }
     }
 }

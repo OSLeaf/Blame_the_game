@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,14 @@ using UnityEngine;
 public class LandOnTile : MonoBehaviour
 {
     public BoardManager boardManager;
+    public ChanceCardManager chanceManager;
     string tileBehavior = "happiness";
     int tileChange = 1;
     // Start is called before the first frame update
     void Start()
     {
         boardManager = GameObject.FindObjectOfType<BoardManager>();
+        chanceManager = GameObject.FindAnyObjectByType<ChanceCardManager>();
     }
 
     // Update is called once per frame
@@ -29,6 +32,36 @@ public class LandOnTile : MonoBehaviour
         else if (tileBehavior == "luck")
         {
             player.luck += tileChange;
+        }
+        else if (tileBehavior == "chance")
+        {
+            chanceManager.DrawCard();
+        }
+        SquareScript sq = transform.GetComponent<SquareScript>();
+        if (string.IsNullOrEmpty(sq.owner))
+        {
+            if (player.WantToBuy(sq.cost))
+            {
+                sq.owner = boardManager.activePlayer.ToString();
+            }
+        }
+        else
+        {
+            int nth = ((Int32.Parse(sq.owner) - boardManager.activePlayer) + 4) % 4;
+            PlayerScript owner;
+            switch(nth)
+            {
+                case 1:
+                    owner = boardManager.NextPlayer();
+                    break;
+                case 2:
+                    owner = boardManager.OppositePlayer();
+                    break;
+                default:
+                    owner = boardManager.PreviousPlayer();
+                    break;
+            }
+            player.payRent(sq.rent, owner, nth);
         }
         boardManager.NextTurn();
     }
