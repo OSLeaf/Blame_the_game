@@ -255,33 +255,34 @@ public class BoardManager : MonoBehaviour
             if (money[i] >= suurin * 0.75)
             {
                 playerValues[i].happiness += 5;
-                playerValues[i].vitutus -= 3;
+                playerValues[i].vitutus -= 2;
                 if (i == suurinInd)
                 {
                     playerValues[i].happiness += 5;
+                    vihattavat.Add(i);
                 }
                 vihattavat.Add(i);
             } 
-            else if (money[i] <= suurin * 0.25)
+            else if (money[i] <= suurin * 0.35)
             {
                 foreach (int saa in saalittavat)
                 {
                     string id = "" + ((i - saa + 4) % 4);
-                    if (id != "0") { playerValues[saa].relationships[id] += 5; };
+                    if (id != "0") { playerValues[saa].relationships[id] += 5 - playerValues[saa].vitutus * 0.05f; };
                 }
-                playerValues[i].happiness -= 2;
-                playerValues[i].vitutus += 5;
+                playerValues[i].happiness -= 5;
+                playerValues[i].vitutus += 10;
                 foreach (int vih in vihattavat)
                 {
                     string id = "" + ((vih - i + 234632) % 4);
-                    if (id != "0") { playerValues[i].relationships[id] -= 5; };
+                    if (id != "0") { playerValues[i].relationships[id] -= 7 + (0.07f * playerValues[i].vitutus); };
                 }
                 saalittavat.Add(i);
                 foreach (int saa in saalittavat)
                 {
                     string id = "" + ((saa - i + 4) % 4);
                     if (id != "0")
-                    { playerValues[i].relationships[id] += 5; }
+                    { playerValues[i].relationships[id] += 5 - (0.04f * playerValues[i].vitutus); }
 
                 }
             } 
@@ -290,7 +291,7 @@ public class BoardManager : MonoBehaviour
                 foreach (int vih in vihattavat)
                 {
                     string id = "" + ((vih - i + 497524) % 4);
-                    if (id != "0") { playerValues[i].relationships[id] -= 6; }
+                    if (id != "0") { playerValues[i].relationships[id] -= 7 + (0.05f * playerValues[i].vitutus); }
                 }
                 int j;
                 for ( j = 0; j<4; j++)
