@@ -56,7 +56,7 @@ public class pelaajaInfo : MonoBehaviour
         }
 
 
-        gameObject.GetComponent<UnityEngine.UI.Image>().color = new UnityEngine.Color(manager.playerColors[playerId].r, manager.playerColors[playerId].g, manager.playerColors[playerId].b, 0.6f);
+        gameObject.GetComponent<UnityEngine.UI.Image>().color = new UnityEngine.Color(manager.playerColors[playerId].r, manager.playerColors[playerId].g, manager.playerColors[playerId].b, 0.75f);
         //       gameObject.GetComponent<UnityEngine.UI.Image>().color = ;
 
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CBirthday : MonoBehaviour, ChanceBase
+public class CSavings : MonoBehaviour, ChanceBase
 {
     [SerializeField] private string _description;
     public string description {get {return _description;}}
@@ -10,15 +10,12 @@ public class CBirthday : MonoBehaviour, ChanceBase
     public Texture2D texture {get {return _texture;}}
     private BoardManager bm;public void Start() {bm = FindObjectOfType<BoardManager>();}
     public void Affect() {
-        Debug.Log("Happy birthday!");
+        Debug.Log("Savings!");
         for (int i = 0; i < 4; i++) {
+            bm.playerValues[i].happiness += 10;            
+            bm.playerValues[i].money += 100;
             if (i != bm.activePlayer) {
-                var pre = bm.playerValues[i].money;
-                bm.playerValues[i].money -= 100;
-                bm.playerValues[i].relationships[((bm.activePlayer-i+16)%4).ToString()] -= 30;
-                var change = pre - bm.playerValues[i].money;
-                bm.CurrentPlayer().money += change;
-                bm.CurrentPlayer().happiness += 7;
+                bm.playerValues[i].relationships[((bm.activePlayer-i+16)%4).ToString()] += 20;
             }
         }
     }

@@ -9,7 +9,15 @@ public class CRobbery : MonoBehaviour, ChanceBase
     public string description {get {return _description;}}
     [SerializeField] private Texture2D _texture;
     public Texture2D texture {get {return _texture;}}
+    private BoardManager bm;void Start() {bm = FindObjectOfType<BoardManager>();}
     public void Affect() {
-        Debug.Log("Hello5");
+        Debug.Log("Robbing");
+        for (int i = 0; i < 4; i++) {
+            bm.playerValues[i].money -= 500;
+            bm.playerValues[i].happiness -= 30;
+            if (i != bm.activePlayer) {
+                bm.playerValues[i].relationships[((bm.activePlayer-i+16)%4).ToString()] -= 30;
+            }
+        }
     }
 }

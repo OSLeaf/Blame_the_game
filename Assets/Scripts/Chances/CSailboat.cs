@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CBlessing : MonoBehaviour, ChanceBase
+public class CSailboat : MonoBehaviour, ChanceBase
 {
     [SerializeField]
     private string _description;
@@ -11,6 +11,8 @@ public class CBlessing : MonoBehaviour, ChanceBase
     public Texture2D texture {get {return _texture;}}
     private BoardManager bm;public void Start() {bm = FindObjectOfType<BoardManager>();}
     public void Affect() {
-        Debug.Log("Hello2");
+        Debug.Log("Sailboat!");
+        bm.CurrentPlayer().money -= 400;
+        bm.CurrentPlayer().happiness -= 15;
     }
 }
