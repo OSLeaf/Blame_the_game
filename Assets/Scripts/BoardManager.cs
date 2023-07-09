@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.IO.Compression;
+using System.Linq;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -113,11 +116,72 @@ public class BoardManager : MonoBehaviour
 
     public void NextTurn()
     {
+        UpdatePlayerStats();
+           
         activePlayer++;
         if (activePlayer > 3)
             activePlayer = 0;
         diceAnim.SetTrigger("DiceRoll");
     }
+
+    private void UpdatePlayerStats()
+    {
+        int i;
+        int[] money = (int[])playerValues.Select(p => p.money);
+        int suurin = money.Max();
+        int suurinInd = money.ToList().IndexOf(suurin);
+        List<int> vihattavat = new List<int>();
+        List<int> saalittavat = new List<int>();
+
+
+        for (i = 0; i < 4; i++)
+        {
+            if (money[i] >= suurin * 0.75)
+            {
+                playerValues[i].happiness += 5;
+                playerValues[i].vitutus -= 3;
+                if (i == suurinInd)
+                {
+                    playerValues[i].happiness += 5;
+                }
+                vihattavat.Add(i);
+            } 
+            else if (money[i] <= suurin * 0.25)
+            {
+                foreach (int saa in saalittavat)
+                {
+                    playerValues[saa].relationships["" + ((i - saa + 4) % 4)] += 5;
+                }
+                playerValues[i].happiness -= 2;
+                playerValues[i].vitutus += 5;
+                foreach (int vih in vihattavat)
+                {
+                    string id = "" + ((vih - i + 234632) % 4);
+                    playerValues[i].relationships[id] -= 5;
+                }
+                saalittavat.Add(i);
+                foreach (int saa in saalittavat)
+                {
+                    playerValues[i].relationships["" + ((saa - i + 4) % 4)] += 5;
+                }
+            } 
+            else
+            {
+                foreach (int vih in vihattavat)
+                {
+                    string id = "" + ((vih - i + 497524) % 4);
+                    playerValues[i].relationships[id] -= 6;
+                }
+                int j;
+                for ( j = 0; j<4; j++)
+                {
+                    string id = "" + ((j - i + 497524) % 4);
+                    playerValues[i].relationships[id] += 2;
+                }
+            }
+        }
+    }
+
     public void DiceHower(int count)
     {
         line.startColor = playerColors[activePlayer];
